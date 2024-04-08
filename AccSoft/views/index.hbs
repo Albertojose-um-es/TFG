@@ -1,67 +1,29 @@
+<div class="container">
 <section id="about" class="py-5">
-        <div class="container">
-            <h2 class="text-center">Acerca de</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nunc id aliquam lacinia, nisl
-                mauris
-                tincidunt nunc, id lacinia elit ligula id nunc. Sed id nunc auctor, aliquet nunc ut, aliquam nunc. Sed
-                consectetur, nunc id aliquam lacinia, nisl mauris tincidunt nunc, id lacinia elit ligula id nunc.</p>
-        </div>
-    </section>
+    <div class="container-fluid">
+        
+        <header class="text-center my-5">
+            <img src="../public/images/logo.jpg" alt="Logo de la aplicación" class="logo">
+        </header>
 
-    <section id="features" class="bg-light py-5">
-        <div class="container">
-            <h2 class="text-center">Características</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Accesibilidad para todos</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nunc id
-                                aliquam lacinia, nisl mauris tincidunt nunc, id lacinia elit ligula id nunc.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Diseño adaptable</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nunc id
-                                aliquam lacinia, nisl mauris tincidunt nunc, id lacinia elit ligula id nunc.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Compatibilidad con lectores de pantalla</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nunc id
-                                aliquam lacinia, nisl mauris tincidunt nunc, id lacinia elit ligula id nunc.</p>
-                        </div>
-                    </div>
+        <!-- Botones -->
+        <div class="div">
+            <div class="col-md-6 text-center">
+                <form method="GET" action="/challenges/play">
+                    <button class="btn btn-primary" type="submit">Jugar</button>
+                </form>
+            </div>
+            <div class="div">
+                <div class="col-md-6 text-center">
+                    <form method="GET" action="/challenges/info">
+                        <button class="btn btn-primary" type="submit">Información</button>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="contact" class="py-5">
-        <div class="container">
-            <h2 class="text-center">Contacto</h2>
-            <p class="text-center">¿Tienes alguna pregunta o comentario? ¡Contáctanos!</p>
-            <form>
-                <div class="form-group">
-                    <label for="name">Nombre</label>
-                    <input type="text" class="form-control" id="name" placeholder="Ingresa tu nombre">
-                </div>
-                <div class="form-group">
-                    <label for="email">Correo electrónico</label>
-                    <input type="email" class="form-control" id="email" placeholder="Ingresa tu correo electrónico">
-                </div>
-                <div class="form-group">
-                    <label for="message">Mensaje</label>
-                    <textarea class="form-control" id="message" rows="3" placeholder="Escribe tu mensaje"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </form>
-        </div>
-    </section>
+</div>
+
 {{!         </script> }}

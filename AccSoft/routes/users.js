@@ -3,11 +3,11 @@ var express = require('express');
 var router = express.Router();
 var ayudante = require('./../public/javascripts/helper-database.js');
 
-  var app = express()
-  var bodyParser = require('body-parser');
-  app.use(bodyParser.urlencoded({ extended: false }));
+var app = express()
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
 
-/* GET contact listing. */
+
 router.get('/register', function(req, res, next) {
   res.render('userRegister', {tittle: 'Registro nuevo usuario'})
 });
@@ -35,7 +35,15 @@ router.post('/register', function(req, res, next) {
                       req.session.contact_id = result[0].insertId;
                       req.session.email = mail;
                       console.log(req.session.contact_id);
-                      res.redirect('/');
+                      req.session.save(function(err) {
+                        // Maneja el error si existe
+                        if(err) {
+                          console.log(err);
+                          res.status(500).send('Error al guardar la sesión');
+                        } else {
+                          res.redirect('/'); // Redirige al usuario a la página principal
+                        }
+                      });
                     }
                     else 
                       res.render('contactRegister', {tittle: 'Formulario de contacto de la Web'}, {error: 'Error al insertar el contacto'}) 
@@ -96,7 +104,15 @@ router.post('/login', (req, res) => {
                 req.session.contact_id = id;
                 req.session.email = email;
                 console.log(req.session.contact_id);
-                res.redirect('/');
+                req.session.save(function(err) {
+                  // Maneja el error si existe
+                  if(err) {
+                    console.log(err);
+                    res.status(500).send('Error al guardar la sesión');
+                  } else {
+                    res.redirect('/'); // Redirige al usuario a la página principal
+                  }
+                });
             })
             .catch(error => {console.log(error)})
 });
@@ -105,7 +121,7 @@ router.get('/logout', (req, res) => {
 
   ayudante .getConnection()
             .then( con => {
-                req.session.contact_id = 0;
+                req.session.contact_id = -1;
                 req.session.email = "";
                 console.log(req.session.contact_id);
                 res.redirect('/');
