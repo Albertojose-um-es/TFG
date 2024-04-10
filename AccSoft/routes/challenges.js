@@ -15,6 +15,10 @@ router.get('/info', function(req, res, next) {
     res.render('info', {tittle: 'Información'})
     });
 
+router.get('/contrastChallenge', function(req, res, next) {   
+    res.render('contrastChallenge', {tittle: 'Desafío de contraste'})
+    });
+
 module.exports = router;
 // Compare this snippet from AccSoft/views/index.hbs:
 

@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center mb-4">¡Bienvenido al Juego de Accesibilidad!</h1>
+            <p class="lead">El objetivo de este juego es aprender sobre accesibilidad web mientras te diviertes. A
+                continuación, encontrarás algunas reglas básicas:</p>
+            <ul>
+                <li>Completa cada desafío siguiendo las indicaciones proporcionadas.</li>
+                <li>Intenta resolver los desafíos de la manera más accesible posible.</li>
+                <li>Gana puntos por cada desafío completado correctamente.</li>
+            </ul>
+        </div>
+        <div class="row mt-5 text-center py-3">
+            <div class="col-md-6">
+                <form method="GET" action="/challenges/contrastChallenge">
+                    <button class="btn btn-success w-50" type="submit">Empezar a Jugar</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-secondary w-50" data-toggle="modal" data-target="#rulesModal">
+                    Ver Reglas
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rulesModal" tabindex="-1" role="dialog" aria-labelledby="rulesModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rulesModalLabel">Reglas del Juego</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>Completa cada desafío siguiendo las indicaciones proporcionadas.</li>
+                        <li>Intenta resolver los desafíos de la manera más accesible posible.</li>
+                        <li>Gana puntos por cada desafío completado correctamente.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Bootstrap JS (opcional, solo si necesitas funcionalidades de Bootstrap JavaScript) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

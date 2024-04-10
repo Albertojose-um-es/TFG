@@ -36,6 +36,7 @@ app.get('/checkLoginStatus', (req, res) => {
   res.json({ loggedIn }); // Envia la respuesta al cliente como objeto JSON
 });
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
