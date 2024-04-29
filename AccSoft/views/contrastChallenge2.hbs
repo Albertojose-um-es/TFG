@@ -10,24 +10,24 @@
         </div>
     </div>
     <div class="row">
-        <div class="col"></div>
-        <p>En una página de producto, hay un enlace de "Leer más" con texto azul sobre un fondo verde oscuro. El
-            contraste entre el texto y el fondo no cumple con los estándares de accesibilidad. Debes modificar los
-            estilos CSS para mejorar el contraste y hacer que el enlace sea más visible.</p>
-
-        <textarea id="editor" rows="10" cols="30" class="form-control">
+        <div class="col-md-6">
+            <h5 class="text">En una página de producto, hay un enlace de "Leer más" con texto azul sobre un fondo verde
+                oscuro. El
+                contraste entre el texto y el fondo no cumple con los estándares de accesibilidad. Debes modificar los
+                estilos CSS para mejorar el contraste y hacer que el enlace sea más visible.</h5>
+            <textarea id="editor" rows="3" cols="10" class="form-control py-3">
             color: blue;
             background-color: darkgreen;
             </textarea>
-
-        <button onclick="applyCss()" class="btn btn-primary">Aplicar CSS</button>
-
-
-        <div class="container mt-5 py-5">
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <h2>Título del Artículo</h2>
-                    <p>
+            <button onclick="applyCss()" class="btn btn-primary py-3 m-3" style="width: 500px;">Aplicar CSS</button>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Título del Artículo</h2>
+                </div>
+                <div class="card-body">
+                    <p class="text">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lorem velit.
                         Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam
                         in
@@ -51,7 +51,8 @@
                         sapien interdum lobortis nec et turpis. Phasellus auctor arcu leo, id consectetur arcu eleifend
                         vitae. Nullam congue commodo justo, id vehicula purus auctor vitae. Proin sed velit sapien.
                     </p>
-                    <a id='product-link' style='color: blue; background-color: darkgreen;'>Leer más</a>
+                    <a href="#" class="link-underline-primary" id='product-link'
+                        style='color: blue; background-color: darkgreen;'>Leer más</a>
                 </div>
             </div>
         </div>
@@ -89,6 +90,10 @@
     var challenges = [
         '/challenges/contrastChallenge',
         '/challenges/contrastChallenge2',
+        '/challenges/altChallenge',
+        '/challenges/altChallenge2',
+        '/challenges/structureChallenge',
+        '/challenges/structureChallenge2',
     ];
 
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
@@ -113,32 +118,34 @@
                 var contrast = getContrast(colorHex, backgroundColorHex);
 
                 if (contrast >= 4.5) {
-                    alert('¡Desafío completado con éxito!');
-                    alert(window.location.pathname);
-                    if (!playedChallenges.includes(window.location.pathname)) {
-                        playedChallenges.push(window.location.pathname);
-                        localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
-                    }
+                    setTimeout(function () {
+                        alert('¡Desafío completado con éxito!');
+                        if (!playedChallenges.includes(window.location.pathname)) {
+                            playedChallenges.push(window.location.pathname);
+                            localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+                        }
 
-                    if (playedChallenges.length < 2 && confirm('¿Quieres avanzar al siguiente desafío?')) {
-                        alert('Avanzando al siguiente desafío...');
+                        if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+                            alert('Avanzando al siguiente desafío...');
 
-                        // Filtra los desafíos para excluir los que el usuario ya ha jugado
-                        var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
+                            // Filtra los desafíos para excluir los que el usuario ya ha jugado
+                            var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
 
-                        // Genera un número aleatorio entre 0 y el número de desafíos restantes
-                        var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
+                            // Genera un número aleatorio entre 0 y el número de desafíos restantes
+                            var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
 
-                        // Redirige al usuario al desafío seleccionado
-                        var nextChallenge = remainingChallenges[nextChallengeIndex];
-                        window.location.href = nextChallenge;
-                    } else {
-                        alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
-                        // Borra la lista de desafíos jugados
-                        playedChallenges = [];
-                        localStorage.removeItem('playedChallenges');
-                        window.location.href = "/";
-                    }
+                            // Redirige al usuario al desafío seleccionado
+                            var nextChallenge = remainingChallenges[nextChallengeIndex];
+                            window.location.href = nextChallenge;
+                        } else {
+                            alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
+                            // Borra la lista de desafíos jugados
+                            playedChallenges = [];
+                            localStorage.removeItem('playedChallenges');
+                            window.location.href = "/";
+                        }
+                    }, 2000); // Retrasa la alerta y las acciones subsiguientes en 2 segundos
+
                 } else {
                     alert('El contraste no es suficiente');
                 }

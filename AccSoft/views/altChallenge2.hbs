@@ -1,0 +1,143 @@
+<div class="container">
+    <div class="py-5 d-flex justify-content-center">
+        <div class="col-md-10">
+            <h1>Desafío sobre el etiquetado alternativo</h1>
+        </div>
+        <div class="col-md-2 p-1">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                ¿Necesitas ayuda?
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <h5>Etiqueta las siguientes imágenes con texto alternativo para que sean accesibles para personas con
+                    discapacidad visual.</h5>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="nameInput" placeholder="Escribe tu nombre aquí">
+                        <input type="text" class="form-control" id="nameLabel"
+                            placeholder="Escribe la etiqueta para el nombre aquí">
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" id="emailInput"
+                            placeholder="Escribe tu correo electrónico aquí">
+                        <input type="text" class="form-control" id="emailLabel"
+                            placeholder="Escribe la etiqueta para el correo electrónico aquí">
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" id="messageInput" rows="3"
+                            placeholder="Escribe tu mensaje aquí"></textarea>
+                        <input type="text" class="form-control" id="messageLabel"
+                            placeholder="Escribe la etiqueta para el mensaje aquí">
+                    </div>
+                    <button type="button" id="applyLabels" class="btn btn-primary">Aplicar etiquetas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Información útil</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2>Etiquetado alternativo según las pautas de la WCAG</h2>
+                <p>Las Pautas de Accesibilidad para el Contenido Web (WCAG) recomiendan proporcionar texto alternativo
+                    para todas las imágenes no textuales. Esto permite que las personas que utilizan lectores de
+                    pantalla y las personas que han desactivado las imágenes en su navegador puedan entender el
+                    contenido de las imágenes.</p>
+                <p>El texto alternativo debe:</p>
+                <ul>
+                    <li>Ser preciso y equivalente en la presentación del mismo contenido que la imagen.</li>
+                    <li>Ser breve. La mayoría de los expertos recomiendan alrededor de 125 caracteres o menos.</li>
+                    <li>No contener palabras como "imagen de" o "gráfico de", ya que los lectores de pantalla ya
+                        anuncian el tipo de elemento.</li>
+                </ul>
+                <p>Si la imagen es puramente decorativa y no aporta ninguna información, puedes dejar la etiqueta alt
+                    vacía (por ejemplo, alt="").</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script>
+
+    var challenges = [
+        '/challenges/contrastChallenge',
+        '/challenges/contrastChallenge2',
+        '/challenges/altChallenge',
+        '/challenges/altChallenge2',
+        '/challenges/structureChallenge',
+        '/challenges/structureChallenge2',
+    ];
+
+    // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
+    var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
+
+    // Función para iniciar el juego
+    document.getElementById('applyLabels').addEventListener('click', function () {
+        var inputs = ['nameInput', 'emailInput', 'messageInput'];
+        var allInputsHaveLabels = true;
+
+        inputs.forEach(function (inputId) {
+            var labelId = inputId.replace('Input', 'Label');
+            var labelText = document.getElementById(labelId).value;
+            if (labelText.trim() === '') {
+                allInputsHaveLabels = false;
+                alert('Por favor, escribe una etiqueta para el campo ' + inputId.replace('Input', '') + '.');
+            } else {
+                var labelElement = document.createElement('label');
+                labelElement.for = inputId;
+                labelElement.innerText = labelText;
+                document.getElementById(inputId).before(labelElement);
+            }
+        });
+
+        if (allInputsHaveLabels) {
+            setTimeout(function () {
+                alert('¡Desafío completado con éxito!');
+                if (!playedChallenges.includes(window.location.pathname)) {
+                    playedChallenges.push(window.location.pathname);
+                    localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+                }
+                if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+                    alert('Avanzando al siguiente desafío...');
+
+                    // Filtra los desafíos para excluir los que el usuario ya ha jugado
+                    var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
+
+                    // Genera un número aleatorio entre 0 y el número de desafíos restantes
+                    var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
+
+                    // Redirige al usuario al desafío seleccionado
+                    var nextChallenge = remainingChallenges[nextChallengeIndex];
+                    window.location.href = nextChallenge;
+                } else {
+                    alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
+                    // Borra la lista de desafíos jugados
+                    playedChallenges = [];
+                    localStorage.removeItem('playedChallenges');
+                    window.location.href = "/";
+                }
+            }, 2000); // Retrasa la alerta y las acciones subsiguientes en 2 segundos
+        }
+    });
+</script>

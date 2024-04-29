@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>{{title}}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>  
-  </head>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+</head>
 
 <body class="bg-light">
     <!-- NavBar -->
@@ -31,20 +35,17 @@
                         <li class="nav-item text-bg-dark">
                             <a class="nav-link active" aria-current="page" href="#"></a>
                         </li>
-                        <li class="nav-item dropdown text-bg-dark" id="loginLink">
-                            <a class="nav-link dropdown-toggle text-bg-dark" role="button" data-bs-toggle="dropdown">
-                                Inicar sesión/Registrarse
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" data-method="GET" href="http://localhost:3030/users/register">Registrarte</a>
-                                </li>
-                                <li><a class="nav-link" data-method="GET" href="http://localhost:3030/users/login">Iniciar sesión</a>
-                                </li>
-                            </ul>
+                        <li class="nav-item text-bg-dark" id="loginLink"><a class="nav-link text-bg-dark"
+                                data-method="GET" href="http://localhost:3030/users/login">Iniciar sesión</a>
                         </li>
+                        <li class="nav-item text-bg-dark" id="loginLink2"><a class="nav-link text-bg-dark"
+                                data-method="GET" href="http://localhost:3030/users/register">Registrarte</a>
+                        </li>
+
                         <li class="nav-item text-bg-dark" id="logoutLink">
-                            <a class="nav-link" data-method="POST" href="/users/logout">Cerrar sesión</a>
+                            <a class="nav-link text-bg-dark" data-method="POST" href="/users/logout">Cerrar sesión</a>
                         </li>
+
                     </ul>
                 </div>
             </div>
@@ -54,23 +55,24 @@
     {{{body}}}
 
     <footer class="page-footer text-bg-dark py-5">
-    <div class="container px-4 px-lg-5">
-        <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-12">
-                <h6 class="font-weight-bold">Accesibility web </h6>
-                <p>A través de este juego, se busca concienciar a los programadores sobre la importancia de la accesibilidad software.</p>
+        <div class="container px-4 px-lg-5">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <h6 class="font-weight-bold">Accesibility web </h6>
+                    <p>A través de este juego, se busca concienciar a los programadores sobre la importancia de la
+                        accesibilidad software.</p>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <h6 class="text-uppercase font-weight-bold">Contacto</h6>
+                    <p>Alberto José Hernández González.
+                        <br />albertojose.hernandezg@um.es <br />
+                    </p>
+                </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <h6 class="text-uppercase font-weight-bold">Contacto</h6>
-                <p>Alberto José Hernández González.
-                    <br/>albertojose.hernandezg@um.es <br/>
-                </p>
-            </div>
-    </div>
-    <div class="footer-copyright text-center">© 2024 Copyright: Accesibility Game</div>
-</footer>
+            <div class="footer-copyright text-center">© 2024 Copyright: Accesibility Game</div>
+    </footer>
 
-    
+
     <script>
         $(document).ready(function () {
             // Verificar el estado de inicio de sesión al cargar la página
@@ -86,10 +88,12 @@
                         if (response.loggedIn) {
                             // Si el usuario ha iniciado sesión, mostrar "Cerrar sesión" y ocultar "Iniciar sesión" y "Registrar usuario"
                             $('#loginLink').hide();
+                            $('#loginLink2').hide();
                             $('#logoutLink').show();
                         } else {
                             // Si el usuario no ha iniciado sesión, mostrar "Iniciar sesión" y "Registrar usuario" y ocultar "Cerrar sesión"
                             $('#loginLink').show();
+                            $('#loginLink2').show();
                             $('#logoutLink').hide();
                         }
                     }
@@ -98,4 +102,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -1,0 +1,78 @@
+<div class="container">
+    <h1>Desafío: Reorganiza y etiqueta los enlaces de navegación</h1>
+    <nav id="navBar">
+        <a href="#">Enlace 1</a>
+        <a href="#">Enlace 2</a>
+        <a href="#">Enlace 3</a>
+        <a href="#">Enlace 4</a>
+    </nav>
+    <button type="button" id="applyStructure" class="btn btn-primary">Aplicar estructura</button>
+</div>
+
+<script>
+    var challenges = [
+        '/challenges/contrastChallenge',
+        '/challenges/contrastChallenge2',
+        '/challenges/altChallenge',
+        '/challenges/altChallenge2',
+        '/challenges/structureChallenge',
+        '/challenges/structureChallenge2',
+    ];
+
+    // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
+    var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
+
+    document.getElementById('applyStructure').addEventListener('click', function () {
+        var navBar = document.getElementById('navBar');
+        var links = Array.from(navBar.getElementsByTagName('a'));
+
+        var newNav = document.createElement('nav');
+        var list = document.createElement('ul');
+        list.setAttribute('role', 'menubar');
+
+        links.forEach(function (link, index) {
+            var listItem = document.createElement('li');
+            listItem.setAttribute('role', 'none');
+
+            var newLink = document.createElement('a');
+            newLink.setAttribute('role', 'menuitem');
+            newLink.href = link.href;
+            newLink.innerHTML = 'Enlace ' + (index + 1);
+
+            listItem.appendChild(newLink);
+            list.appendChild(listItem);
+        });
+
+        newNav.appendChild(list);
+        navBar.innerHTML = '';
+        navBar.appendChild(newNav);
+
+        setTimeout(function () {
+            alert('¡Desafío completado con éxito!');
+            if (!playedChallenges.includes(window.location.pathname)) {
+                playedChallenges.push(window.location.pathname);
+                localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+            }
+
+            if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+                alert('Avanzando al siguiente desafío...');
+
+                // Filtra los desafíos para excluir los que el usuario ya ha jugado
+                var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
+
+                // Genera un número aleatorio entre 0 y el número de desafíos restantes
+                var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
+
+                // Redirige al usuario al desafío seleccionado
+                var nextChallenge = remainingChallenges[nextChallengeIndex];
+                window.location.href = nextChallenge;
+            } else {
+                alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
+                // Borra la lista de desafíos jugados
+                playedChallenges = [];
+                localStorage.removeItem('playedChallenges');
+                window.location.href = "/";
+            }
+        }, 2000);
+    });
+</script>
