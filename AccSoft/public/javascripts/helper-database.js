@@ -1,6 +1,6 @@
 const e = require('express');
 const mysql = require('mysql2/promise');
-const highscore = 0;
+
 
 async function getConnection() {
     const connection = mysql.createConnection(
@@ -13,8 +13,8 @@ async function getConnection() {
     return connection
 }
 
-async function registerContact(connection, name, apellidos, date, mail, password, highscore) {
-    let result = connection.execute('INSERT INTO `Contactos` SET `nombre` = ?,  `apellidos` = ?,  `fecha_nacimiento` = ?, `mail` = ?, `password` = ?, `highscore`= ?', [name, apellidos, date, mail, password, highscore]);
+async function registerContact(connection, name, apellidos, date, mail, password) {
+    let result = connection.execute('INSERT INTO `Contactos` SET `nombre` = ?,  `apellidos` = ?,  `fecha_nacimiento` = ?, `mail` = ?, `password` = ?, `highscore`= ?', [name, apellidos, date, mail, password, 0]);
     return result
 }
 
@@ -33,13 +33,13 @@ async function getContactoId(connection, mail) {
     return rows
 }
 
-async function setHighscore(connection, mail, highscore) {
+async function updateHighscore(connection, mail, highscore) {
     const [rows, fields] = await connection.execute('UPDATE `Contactos` SET `highscore` = ? WHERE `mail` = ?', [highscore, mail]);
     return rows
 }
 
 async function getHighscore(connection, mail) {
-    const [rows, fields] = await connection.execute('SELECT `highscore` FROM `Contactos` WHERE `mail` = ?', [mail]);
+    const [rows, fields] = await connection.execute('SELECT highscore FROM `Contactos` WHERE `mail` = ?', [mail]);
     return rows
 }
 
@@ -50,6 +50,6 @@ exports.registerContact = registerContact;
 exports.getAllContact = getAllContact;
 exports.getContactoPorEmail = getContactoPorEmail;
 exports.getContactoId = getContactoId;
-exports.setHighscore = setHighscore;
+exports.updateHighscore = updateHighscore;
 exports.getHighscore = getHighscore;
 

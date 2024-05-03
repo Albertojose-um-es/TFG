@@ -177,15 +177,19 @@
 
                 if (contrast >= 4.5) {
                     setTimeout(function () {
-                        var timerValueWhenConditionMet = elapsedTime;
-                        clearInterval(timerInterval);
 
                         alert('¡Desafío completado con éxito!');
+                        var newScore = obtenerPuntuación(timerValueWhenConditionMet);
+                        var currentScore = parseInt(localStorage.getItem('score'));
+                        var totalScore = currentScore + newScore;
+                        localStorage.setItem('score', totalScore);
+                        alert('Tu score es' + totalScore);
+                        clearInterval(timerInterval);
                         if (!playedChallenges.includes(window.location.pathname)) {
                             playedChallenges.push(window.location.pathname);
                             localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
                         }
-                        if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+                        if (playedChallenges.length < 1 && confirm('¿Quieres avanzar al siguiente desafío?')) {
                             alert('Avanzando al siguiente desafío...');
 
                             // Filtra los desafíos para excluir los que el usuario ya ha jugado
@@ -202,18 +206,42 @@
                             // Borra la lista de desafíos jugados
                             playedChallenges = [];
                             localStorage.removeItem('playedChallenges');
+                            if (totalScore > {{highscore}}) {
+                                fetch('/challenges/updateHighscore', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        highscore: totalScore,
+                                    }),
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log('Highscore updated:', data);
+                                })
+                                .catch((error) => {
+                                    console.error('Error:', error);
+                                });
+                            }
+                            localStorage.setItem('score', 0);
                             window.location.href = "/";
-                        }
-                    }, 2000); // Retrasa la alerta y las acciones subsiguientes en 2 segundos
-                } else {
-                    alert('El contraste no es suficiente');
                 }
-            } else {
-                alert('Uno de los colores no se reconoce');
-            }
+            }, 2000); // Retrasa la alerta y las acciones subsiguientes en 2 segundos
         } else {
-            alert('No se pudo encontrar el color o el color de fondo en el CSS');
+            alert('El contraste no es suficiente');
         }
+    } else {
+        alert('Uno de los colores no se reconoce');
+    }
+        } else {
+        alert('No se pudo encontrar el color o el color de fondo en el CSS');
+    }
+    }
+
+
+    function obtenerPuntuación(timerTriggered) {
+        return Math.floor(1000 / timerTriggered);
     }
 
     function getLuminance(r, g, b) {
@@ -245,20 +273,21 @@
     }
 </script>
 <script>
-    // Variables para el tiempo de inicio y el intervalo del temporizador
-    var startTime, timerInterval;
 
-    // Función para actualizar el temporizador
+    var startTime, timerInterval, timerValueWhenConditionMet;
+
+
     function updateTimer() {
-        // Calcula el tiempo transcurrido
+
         var currentTime = Date.now();
         var elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        timerValueWhenConditionMet = elapsedTime;
 
-        // Muestra el tiempo transcurrido en el elemento con el ID "timer-container"
+
         document.getElementById("timer-container").innerText = 'Tiempo de partida: ' + elapsedTime + ' segundos';
     }
 
-    // Función para iniciar el temporizador
+
     function startTimer() {
         // Guarda el tiempo de inicio
         startTime = Date.now();

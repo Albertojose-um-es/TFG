@@ -8,7 +8,6 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var challengesRouter = require('./routes/challenges');
-
 var app = express();
 
 // view engine setup
@@ -25,7 +24,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   contact_id: -1,
-  email: ''
+  email: '',
+  highscore: 11
 }));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -33,6 +33,7 @@ app.use('/challenges', challengesRouter);
 app.get('/checkLoginStatus', (req, res) => {
   const loggedIn = req.session.contact_id>=0; // Verifica si existe la propiedad userId en la sesión
   console.log("logueado:"+loggedIn);
+  console.log("highscore:"+req.session.highscore);
   res.json({ loggedIn }); // Envia la respuesta al cliente como objeto JSON
 });
 app.use(express.static(path.join(__dirname, 'public')));

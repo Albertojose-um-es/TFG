@@ -75,9 +75,20 @@ router.get('/login', function(req, res, next) {
                                                     'contactos' : data})
                     }
               )
-              .catch(error => {console.log(error)}) 
+              .catch(error => {console.log(error)})
 });
-
+/*
+ayudante.getConnection()
+              .then( con => {
+                  return ayudante.getAllContact(con)
+              })
+              .then( data =>  {
+                  res.render('login', { 'tittle' : 'Iniciar sesión',
+                                                    'contactos' : data})
+                    }
+              )
+              .catch(error => {console.log(error)}) 
+*/
 router.post('/login', (req, res) => {
  
   const email = req.body.mail;
@@ -103,6 +114,7 @@ router.post('/login', (req, res) => {
                 const id = usuario.id;
                 req.session.contact_id = id;
                 req.session.email = email;
+                req.session.highscore = usuario.highscore;
                 console.log(req.session.contact_id);
                 req.session.save(function(err) {
                   // Maneja el error si existe
