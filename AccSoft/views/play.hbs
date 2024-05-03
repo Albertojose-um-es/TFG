@@ -49,13 +49,13 @@
         </div>
     </div>
 </div>
-<!-- Bootstrap JS (opcional, solo si necesitas funcionalidades de Bootstrap JavaScript) -->
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     var challenges = [
-        '/challenges/contrastChallenge',
+        '/challenges/contrastChallenge2',
         /*'/challenges/contrastChallenge2',
         '/challenges/altChallenge',
         '/challenges/altChallenge2',
@@ -64,19 +64,19 @@
     ];
 
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
-    var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
+    var playedChallenges = [];
     if(!localStorage.getItem('score')){
         localStorage.setItem('score', 0);
     }
 
     function play() {
-        alert('Avanzando al siguiente desafío...');
-            // Genera un número aleatorio entre 0 y el número de desafíos restantes
+        
+        // Genera un número aleatorio entre 0 y el número de desafíos restantes
         var nextChallengeIndex = Math.floor(Math.random() * challenges.length);
-
-            // Redirige al usuario al desafío seleccionado
+        // Obtiene el siguiente desafío
         var nextChallenge = challenges[nextChallengeIndex];
         playedChallenges.push(nextChallenge);
+        localStorage.setItem('score', 0);
         localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
         window.location.href = nextChallenge;
     }

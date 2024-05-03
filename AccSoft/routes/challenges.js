@@ -36,33 +36,27 @@ router.get("/contrastChallenge", function (req, res, next) {
 router.get("/contrastChallenge2", async function (req, res, next) {
 
   res.render("contrastChallenge2", {
-    tittle: "Desafío de contraste"
-
-  });
+    tittle: "Desafío de contraste", highscore: req.session.highscore});
 });
 
 router.get("/altChallenge", async function (req, res, next) {
   res.render("altChallenge", {
-    tittle: "Desafío de etiquetado alternativo"
-  });
+    tittle: "Desafío de etiquetado alternativo", highscore: req.session.highscore});
 });
 
 router.get("/altChallenge2", async function (req, res, next) {
   res.render("altChallenge2", {
-    tittle: "Desafío de etiquetado alternativo"
-  });
+    tittle: "Desafío de etiquetado alternativo", highscore: req.session.highscore});
 });
 
 router.get("/structureChallenge", async function (req, res, next) {
   res.render("structureChallenge", {
-    tittle: "Desafío de estructura"
-  });
+    tittle: "Desafío de estructura", highscore: req.session.highscore});
 });
 
 router.get("/structureChallenge2", async function (req, res, next) {
   res.render("structureChallenge2", {
-    tittle: "Desafío de estructura"
-  });
+    tittle: "Desafío de estructura", highscore: req.session.highscore});
 });
 
 router.get("/highscore", async function (req, res, next) {

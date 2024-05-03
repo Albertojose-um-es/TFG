@@ -10,6 +10,17 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-4">
+            <div class="div" id="timer-container"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="div" id="score-container"></div>
+        </div>
+        <div class="col-md-4">
+            <p id="highscore">Máxima puntuación: {{highscore}}</p>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-6">
             <h5 class="text">En una página de producto, hay un enlace de "Leer más" con texto azul sobre un fondo verde
                 oscuro. El
@@ -85,82 +96,26 @@
         </div>
     </div>
 </div>
-
-<script>
-    var challenges = [
-        '/challenges/contrastChallenge',
-        '/challenges/contrastChallenge2',
-        '/challenges/altChallenge',
-        '/challenges/altChallenge2',
-        '/challenges/structureChallenge',
-        '/challenges/structureChallenge2',
-    ];
-
-    // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
-    var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
-
-    function applyCss() {
-        var css = document.getElementById('editor').value;
-        var productLink = document.getElementById('product-link');
-        productLink.style = css;
-
-        // Extrae los colores del CSS
-        var colorMatch = css.match(/color:\s*([^;]+)/);
-        var backgroundColorMatch = css.match(/background-color:\s*([^;]+)/);
-
-        if (colorMatch && backgroundColorMatch) {
-           
-            var colorHex = getColorHex(colorMatch[1]);
-            var backgroundColorHex = getColorHex(backgroundColorMatch[1]);
-
-            if (colorHex && backgroundColorHex) {
-                
-                var contrast = getContrast(colorHex, backgroundColorHex);
-
-                if (contrast >= 4.5) {
-                    setTimeout(function () {
-                        alert('¡Desafío completado con éxito!');
-                        if (!playedChallenges.includes(window.location.pathname)) {
-                            playedChallenges.push(window.location.pathname);
-                            localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
-                        }
-
-                        if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
-                            alert('Avanzando al siguiente desafío...');
-
-                            // Filtra y elige al azar un nuevo desafio
-                            var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
-                            var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
-
-                            
-                            var nextChallenge = remainingChallenges[nextChallengeIndex];
-                            window.location.href = nextChallenge;
-                        } else {
-                            alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
-                            // Borra la lista de desafíos jugados
-                            playedChallenges = [];
-                            localStorage.removeItem('playedChallenges');
-                            window.location.href = "/";
-                        }
-                    }, 2000); 
-
-                } else {
-                    alert('El contraste no es suficiente');
-                }
-            } else {
-                alert('Uno de los colores no se reconoce');
-            }
-        } else {
-            alert('No se pudo encontrar el color o el color de fondo en el CSS');
-        }
-    }
-
-</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+
+
 
 <script>
+
+    var challenges = [
+        '/challenges/contrastChallenge',
+        '/challenges/contrastChallenge2',
+       /* '/challenges/altChallenge',
+        '/challenges/altChallenge2',
+        '/challenges/structureChallenge',
+        '/challenges/structureChallenge2',*/
+    ];
+
+    // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
+    var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges'));
     var colorNames = {
         "black": "#000000",
         "white": "#ffffff",
@@ -189,13 +144,97 @@
 
     function getColorHex(color) {
         if (color.indexOf('#') === 0) {
-            return color;  
+            return color;  // Ya es un color hexadecimal
         } else if (colorNames[color.toLowerCase()]) {
-            return colorNames[color.toLowerCase()]; 
+            return colorNames[color.toLowerCase()];  // Convertir el nombre del color a hexadecimal
         } else {
-            return null;  
+            return null;  // Color desconocido
         }
     }
+
+
+    function applyCss() {
+        var css = document.getElementById('editor').value;
+        var productLink = document.getElementById('product-link');
+        productLink.style = css;
+
+        // Extrae los colores del CSS
+        var colorMatch = css.match(/color:\s*([^;]+)/);
+        var backgroundColorMatch = css.match(/background-color:\s*([^;]+)/);
+
+        if (colorMatch && backgroundColorMatch) {
+            // Convierte los colores a formato hexadecimal
+            var colorHex = getColorHex(colorMatch[1]);
+            var backgroundColorHex = getColorHex(backgroundColorMatch[1]);
+
+            if (colorHex && backgroundColorHex) {
+                // Calcula el contraste entre los colores
+                var contrast = getContrast(colorHex, backgroundColorHex);
+
+                if (contrast >= 4.5) {
+                    setTimeout(function () {
+                        var newScore = obtenerPuntuación(timerValueWhenConditionMet);
+                        var currentScore = parseInt(localStorage.getItem('score'));
+                        var totalScore = currentScore + newScore;
+                        localStorage.setItem('score', totalScore);
+                        clearInterval(timerInterval);
+                        alert('¡Desafío completado con éxito! Con puntuación de ' + totalScore);
+                        
+
+                        if (!playedChallenges.includes(window.location.pathname)) {
+                            playedChallenges.push(window.location.pathname);
+                            localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+                        }
+                        if (playedChallenges.length < 2 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+                            alert('Avanzando al siguiente desafío...');
+
+                            // Filtra los desafíos para excluir los que el usuario ya ha jugado
+                            var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
+
+                            // Genera un número aleatorio entre 0 y el número de desafíos restantes
+                            var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
+
+                            // Redirige al usuario al desafío seleccionado
+                            var nextChallenge = remainingChallenges[nextChallengeIndex];
+                            window.location.href = nextChallenge;
+                        } else {
+                            alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
+                            // Borra la lista de desafíos jugados
+                            playedChallenges = [];
+                            localStorage.removeItem('playedChallenges');
+                            if (totalScore > {{highscore}}) {
+                                fetch('/challenges/updateHighscore', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        highscore: totalScore,
+                                    }),
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log('Highscore updated:', data);
+                                })
+                                .catch((error) => {
+                                    console.error('Error:', error);
+                                });
+                            }
+                            localStorage.setItem('score', 0);
+                            window.location.href = "/";
+                }
+            }, 1000); // Retrasa la alerta para que el usuario pueda ver la solución
+        } else {
+            alert('El contraste no es suficiente');
+        }
+    } else {
+        alert('Uno de los colores no se reconoce');
+    }
+        } else {
+        alert('No se pudo encontrar el color o el color de fondo en el CSS');
+    }
+    }
+
     function getLuminance(r, g, b) {
         var a = [r, g, b].map(function (v) {
             v /= 255;
@@ -223,4 +262,36 @@
             b: parseInt(result[3], 16)
         } : null;
     }
+
+    function obtenerPuntuación(timerTriggered) {
+        return Math.floor(1000 / timerTriggered);
+    }
+
+</script>
+<script>
+
+    var startTime, timerInterval, timerValueWhenConditionMet;
+
+
+    function updateTimer() {
+
+        var currentTime = Date.now();
+        var elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        timerValueWhenConditionMet = elapsedTime;
+
+
+        document.getElementById("timer-container").innerText = 'Tiempo de partida: ' + elapsedTime + ' segundos';
+    }
+    document.getElementById("score-container").innerText = 'Puntuación: ' + localStorage.getItem('score');
+
+    function startTimer() {
+        // Guarda el tiempo de inicio
+        startTime = Date.now();
+
+        // Inicia el temporizador para que llame a updateTimer cada 1000 milisegundos (1 segundo)
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // Inicia el temporizador cuando se carga la página
+    startTimer();
 </script>
