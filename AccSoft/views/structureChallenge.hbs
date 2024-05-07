@@ -1,21 +1,108 @@
 <div class="container">
-    <h1>Desafío: Reorganiza la página utilizando etiquetas semánticas HTML</h1>
-    <div id="pageStructure">
-        <div id="header">
-            <input type="text" id="headerInput" placeholder="Introduce el contenido del encabezado aquí">
+    <div class="py-5 d-flex justify-content-center">
+        <div class="col-md-10">
+            <h1>Desafío sobre la estructura de la página.</h1>
         </div>
-        <div id="nav">
-            <input type="text" id="navInput" placeholder="Introduce el contenido de la navegación aquí">
-        </div>
-        <div id="main">
-            <input type="text" id="mainInput" placeholder="Introduce el contenido principal aquí">
-        </div>
-        <div id="footer">
-            <input type="text" id="footerInput" placeholder="Introduce el contenido del pie de página aquí">
+        <div class="col-md-2 p-1">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                ¿Necesitas ayuda?
+            </button>
         </div>
     </div>
-    <button type="button" id="applyStructure" class="btn btn-primary">Aplicar estructura</button>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="div" id="timer-container"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="div" id="score-container"></div>
+        </div>
+        <div class="col-md-4">
+            <p id="highscore">Máxima puntuación: {{highscore}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <p>En la simulacion de página de noticias a simple vista no falta nada, pero no están incluidos los elementos de
+            estructura que ayudan a las personas con discapacidad a poder ubicarse dentro de la página</p>
+        <p>Escribe los elementos que harían falta en el recuadro de texto y en el orden correcto.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-6" id="container">
+            <div id="header">
+                <h1>Noticias del día</h1>
+            </div>
+            <div id="nav">
+                <a href="#">Inicio</a> | <a href="#">Internacional</a> | <a href="#">Deportes</a> | <a
+                    href="#">Cultura</a>
+            </div>
+            <div id="main">
+                <div>
+                    <h2>Noticia principal</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc et tincidunt.</p>
+                </div>
+                <div>
+                    <h2>Noticia secundaria</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc et tincidunt.</p>
+                </div>
+                <div>
+                    <h2>Noticia terciaria</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc et tincidunt.</p>
+                </div>
+            </div>
+            <div id="footer">
+                <p>Contacto: info@noticiasdeldia.com</p>
+                <p>Dirección: Calle Falsa 123</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 my-2">
+            <form id="structureForm">
+                <label class="label" for="structureInput">Ingresa tu estructura HTML aquí:</label>
+                <p>Por ejemplo: header, nav, main, footer</p>
+                <div class="row">
+                    <textarea id="structureInput" name="structureInput" rows="10" cols="50"></textarea>
+                </div>
+                <input class="btn btn-primary m-1" type="submit" value="Enviar">
+            </form>
+        </div>
+    </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Información útil</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2>Etiquetado alternativo según las pautas de la WCAG</h2>
+                <p>Las Pautas de Accesibilidad para el Contenido Web (WCAG) recomiendan proporcionar texto alternativo
+                    para todas las imágenes no textuales. Esto permite que las personas que utilizan lectores de
+                    pantalla y las personas que han desactivado las imágenes en su navegador puedan entender el
+                    contenido de las imágenes.</p>
+                <p>El texto alternativo debe:</p>
+                <ul>
+                    <li>Ser preciso y equivalente en la presentación del mismo contenido que la imagen.</li>
+                    <li>Ser breve. La mayoría de los expertos recomiendan alrededor de 125 caracteres o menos.</li>
+                    <li>No contener palabras como "imagen de" o "gráfico de", ya que los lectores de pantalla ya
+                        anuncian el tipo de elemento.</li>
+                </ul>
+                <p>Si la imagen es puramente decorativa y no aporta ninguna información, puedes dejar la etiqueta alt
+                    vacía (por ejemplo, alt="").</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
 <script>
     var challenges = [
@@ -30,55 +117,124 @@
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
     var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
 
-    document.getElementById('applyStructure').addEventListener('click', function () {
-        var pageStructure = document.getElementById('pageStructure');
-        var headerInput = document.getElementById('headerInput');
-        var navInput = document.getElementById('navInput');
-        var mainInput = document.getElementById('mainInput');
-        var footerInput = document.getElementById('footerInput');
+    function verifyStructure() {
+        var container = document.getElementById('container');
+        var elements = container.children;
+        var score = 0;
 
-        var newHeader = document.createElement('header');
-        newHeader.innerHTML = headerInput.value;
-        var newNav = document.createElement('nav');
-        newNav.innerHTML = navInput.value;
-        var newMain = document.createElement('main');
-        newMain.innerHTML = mainInput.value;
-        var newFooter = document.createElement('footer');
-        newFooter.innerHTML = footerInput.value;
+        if (elements[0] && elements[0].tagName.toLowerCase() === 'header') {
+            score += 25;
+        } else {
+            alert('Falta la etiqueta semántica "header" o no está en la posición correcta.');
+        }
 
-        pageStructure.innerHTML = '';
-        pageStructure.appendChild(newHeader);
-        pageStructure.appendChild(newNav);
-        pageStructure.appendChild(newMain);
-        pageStructure.appendChild(newFooter);
+        if (elements[1] && elements[1].tagName.toLowerCase() === 'nav') {
+            score += 25;
+        } else {
+            alert('Falta la etiqueta semántica "nav" o no está en la posición correcta.');
+        }
 
+        if (elements[2] && elements[2].tagName.toLowerCase() === 'main') {
+            score += 25;
+        } else {
+            alert('Falta la etiqueta semántica "main" o no está en la posición correcta.');
+        }
 
-        setTimeout(function () {
-            alert('¡Desafío completado con éxito!');
-            if (!playedChallenges.includes(window.location.pathname)) {
-                playedChallenges.push(window.location.pathname);
-                localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+        if (elements[3] && elements[3].tagName.toLowerCase() === 'footer') {
+            score += 25;
+        } else {
+            alert('Falta la etiqueta semántica "footer" o no está en la posición correcta.');
+        }
+        alert('¡Felicidades! Has completado el desafío');
+        localStorage.setItem('score', score);
+        clearInterval(timerInterval);
+        alert('¡Desafío completado con éxito! Con puntuación de ' + score);
+        if (!playedChallenges.includes(window.location.pathname)) {
+            playedChallenges.push(window.location.pathname);
+            localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+        }
+        if (playedChallenges.length < 1 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+            alert('Avanzando al siguiente desafío...');
+
+            // Filtra los desafíos para excluir los que el usuario ya ha jugado
+            var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
+
+            // Genera un número aleatorio entre 0 y el número de desafíos restantes
+            var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
+
+            // Redirige al usuario al desafío seleccionado
+            var nextChallenge = remainingChallenges[nextChallengeIndex];
+            window.location.href = nextChallenge;
+        } else {
+            alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
+            // Borra la lista de desafíos jugados
+            playedChallenges = [];
+            localStorage.removeItem('playedChallenges');
+            if (score > {{ highscore }} ) {
+            fetch('/challenges/updateHighscore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    highscore: score,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Highscore updated:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+        localStorage.setItem('score', 0);
+        window.location.href = "/";
+    }
+}
+    document.getElementById('structureForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var structureInput = document.getElementById('structureInput');
+        var tags = structureInput.value.split(/,|\n|\s+/); // Divide la entrada en etiquetas por comas, retornos de carro o uno o más espacios
+        tags.forEach(function (tag) {
+            tag = tag.toLowerCase();
+            tag = tag.trim();
+            var content = document.getElementById(tag);
+            if (content) {
+                var newElement = document.createElement(tag);
+                newElement.innerHTML = content.innerHTML;
+                var container = document.getElementById('container'); // Asume que tienes un contenedor con el ID 'myContainer'
+                container.appendChild(newElement);
+                container.removeChild(content); // Elimina el elemento original
             }
-
-            if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
-                alert('Avanzando al siguiente desafío...');
-
-                // Filtra los desafíos para excluir los que el usuario ya ha jugado
-                var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
-
-                // Genera un número aleatorio entre 0 y el número de desafíos restantes
-                var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
-
-                // Redirige al usuario al desafío seleccionado
-                var nextChallenge = remainingChallenges[nextChallengeIndex];
-                window.location.href = nextChallenge;
-            } else {
-                alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
-                // Borra la lista de desafíos jugados
-                playedChallenges = [];
-                localStorage.removeItem('playedChallenges');
-                window.location.href = "/";
-            }
-        }, 2000);
+        });
+        verifyStructure();
     });
+</script>
+<script>
+
+    var startTime, timerInterval, timerValueWhenConditionMet;
+
+
+    function updateTimer() {
+
+        var currentTime = Date.now();
+        var elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        timerValueWhenConditionMet = elapsedTime;
+
+
+        document.getElementById("timer-container").innerText = 'Tiempo de partida: ' + elapsedTime + ' segundos';
+    }
+    document.getElementById("score-container").innerText = 'Puntuación: ' + localStorage.getItem('score');
+
+    function startTimer() {
+        // Guarda el tiempo de inicio
+        startTime = Date.now();
+
+        // Inicia el temporizador para que llame a updateTimer cada 1000 milisegundos (1 segundo)
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // Inicia el temporizador cuando se carga la página
+    startTimer();
 </script>

@@ -167,7 +167,6 @@
     var checkWinInterval = setInterval(function() {
         if (nombre && email && message) {
             alert('¡Felicidades! Has completado el desafío');
-            window.location.href = '/';
             var newScore = obtenerPuntuación(timerValueWhenConditionMet);
             var currentScore = parseInt(localStorage.getItem('score'));
             var totalScore = currentScore + newScore;
@@ -177,7 +176,7 @@
                 playedChallenges.push(window.location.pathname);
                 localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
             }
-            if (playedChallenges.length < 1 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+            if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
                 alert('Avanzando al siguiente desafío...');
 
                             // Filtra los desafíos para excluir los que el usuario ya ha jugado
