@@ -220,12 +220,12 @@
                                     .catch((error) => {
                                         console.error('Error:', error);
                                     });
-                    }
-                    localStorage.setItem('score', 0);
-                    window.location.href = "/";
-                }
-            }, 1000); // Retrasa la alerta para que el usuario pueda ver la solución
-        } else {
+                            }
+                            localStorage.setItem('score', 0);
+                            window.location.href = "/";
+                        }
+                    }, 1000); // Retrasa la alerta para que el usuario pueda ver la solución
+                } else {
             alert('El contraste no es suficiente');
         }
     } else {

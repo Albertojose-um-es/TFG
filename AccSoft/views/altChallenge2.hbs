@@ -10,37 +10,65 @@
         </div>
     </div>
     <div class="row">
-        <div class="card">
+        <div class="col-md-4">
+            <div class="div" id="timer-container"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="div" id="score-container"></div>
+        </div>
+        <div class="col-md-4">
+            <p id="highscore">Máxima puntuación: {{highscore}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card col-md-6">
             <div class="card-header">
-                <h5>Etiqueta las siguientes imágenes con texto alternativo para que sean accesibles para personas con
-                    discapacidad visual.</h5>
+                <h5>El siguiente formulario de contacto no es accesible, ya que no estan los campos debidamente
+                    nombrados.</h5>
             </div>
             <div class="card-body">
-                <form>
+                <form id="inputForm">
                     <div class="mb-3">
                         <input type="text" class="form-control" id="nameInput" placeholder="Escribe tu nombre aquí">
-                        <input type="text" class="form-control" id="nameLabel"
-                            placeholder="Escribe la etiqueta para el nombre aquí">
                     </div>
                     <div class="mb-3">
                         <input type="email" class="form-control" id="emailInput"
                             placeholder="Escribe tu correo electrónico aquí">
-                        <input type="text" class="form-control" id="emailLabel"
-                            placeholder="Escribe la etiqueta para el correo electrónico aquí">
                     </div>
                     <div class="mb-3">
                         <textarea class="form-control" id="messageInput" rows="3"
                             placeholder="Escribe tu mensaje aquí"></textarea>
-                        <input type="text" class="form-control" id="messageLabel"
-                            placeholder="Escribe la etiqueta para el mensaje aquí">
                     </div>
-                    <button type="button" id="applyLabels" class="btn btn-primary">Aplicar etiquetas</button>
+                    <button type="button" id="applyLabels" class="btn btn-primary">Enviar información</button>
                 </form>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Añadir los elementos</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <form id="labelForm">
+                            <input type="text" class="form-control py-2 my-2" id="nameLabel"
+                                placeholder="Escribe la etiqueta del primer campo">
+                            <input type="text" class="form-control py-2 my-2" id="emailLabel"
+                                placeholder="Escribe la etiqueta del segundo campo">
+                            <input type="text" class="form-control py-2 my-2" id="messageLabel"
+                                placeholder="Escribe la etiqueta del tercer campo">
+                            <button type="submit" class="btn btn-primary py-2 my-2">Aplicar etiquetas</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <hr class="my-4">
+        </div>
     </div>
 </div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -79,7 +107,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script>
-
+    var email = false;
+    var message = false;
+    var nombre = false;
+    
     var challenges = [
         '/challenges/contrastChallenge',
         '/challenges/contrastChallenge2',
@@ -88,56 +119,135 @@
         '/challenges/structureChallenge',
         '/challenges/structureChallenge2',
     ];
-
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
     var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
-
+      
     // Función para iniciar el juego
-    document.getElementById('applyLabels').addEventListener('click', function () {
-        var inputs = ['nameInput', 'emailInput', 'messageInput'];
-        var allInputsHaveLabels = true;
+    document.getElementById('labelForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var fields = ['name', 'email', 'message'];
+        fields.forEach(function (field) {
+            var input = document.getElementById(field + 'Input');
+            var label = document.getElementById(field + 'Label');
+            var labelText = label.value;
+            if (labelText.trim() !== '') {
+                if (field === 'name') {
+                    if (!nombre) {
+                        nombre = true;
+                        var newLabel = document.createElement('label');
+                        newLabel.for = input.id;
+                        newLabel.textContent = labelText;
+                        input.parentNode.insertBefore(newLabel, input);
+                        label.value = '';
+                    }
+                } else if (field === 'email') {
+                    if (!email) {
+                        email = true;
+                        var newLabel = document.createElement('label');
+                        newLabel.for = input.id;
+                        newLabel.textContent = labelText;
+                        input.parentNode.insertBefore(newLabel, input);
+                        label.value = '';
+                    }
+                } else if (field === 'message') {
+                    if (!message) {
 
-        inputs.forEach(function (inputId) {
-            var labelId = inputId.replace('Input', 'Label');
-            var labelText = document.getElementById(labelId).value;
-            if (labelText.trim() === '') {
-                allInputsHaveLabels = false;
-                alert('Por favor, escribe una etiqueta para el campo ' + inputId.replace('Input', '') + '.');
-            } else {
-                var labelElement = document.createElement('label');
-                labelElement.for = inputId;
-                labelElement.innerText = labelText;
-                document.getElementById(inputId).before(labelElement);
+                        message = true;
+                        var newLabel = document.createElement('label');
+                        newLabel.for = input.id;
+                        newLabel.textContent = labelText;
+                        input.parentNode.insertBefore(newLabel, input);
+                        label.value = '';
+                    }
+                }
             }
         });
+    });
 
-        if (allInputsHaveLabels) {
-            setTimeout(function () {
-                alert('¡Desafío completado con éxito!');
-                if (!playedChallenges.includes(window.location.pathname)) {
-                    playedChallenges.push(window.location.pathname);
-                    localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
-                }
-                if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
-                    alert('Avanzando al siguiente desafío...');
+    var checkWinInterval = setInterval(function() {
+        if (nombre && email && message) {
+            alert('¡Felicidades! Has completado el desafío');
+            window.location.href = '/';
+            var newScore = obtenerPuntuación(timerValueWhenConditionMet);
+            var currentScore = parseInt(localStorage.getItem('score'));
+            var totalScore = currentScore + newScore;
+            localStorage.setItem('score', totalScore);
+            alert('¡Desafío completado con éxito! Con puntuación de ' + totalScore);
+            if (!playedChallenges.includes(window.location.pathname)) {
+                playedChallenges.push(window.location.pathname);
+                localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+            }
+            if (playedChallenges.length < 1 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+                alert('Avanzando al siguiente desafío...');
 
-                    // Filtra los desafíos para excluir los que el usuario ya ha jugado
-                    var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
+                            // Filtra los desafíos para excluir los que el usuario ya ha jugado
+                var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
 
-                    // Genera un número aleatorio entre 0 y el número de desafíos restantes
-                    var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
+                            // Genera un número aleatorio entre 0 y el número de desafíos restantes
+                var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
 
-                    // Redirige al usuario al desafío seleccionado
-                    var nextChallenge = remainingChallenges[nextChallengeIndex];
-                    window.location.href = nextChallenge;
+                            // Redirige al usuario al desafío seleccionado
+                var nextChallenge = remainingChallenges[nextChallengeIndex];
+                window.location.href = nextChallenge;
                 } else {
                     alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
-                    // Borra la lista de desafíos jugados
+                            // Borra la lista de desafíos jugados
                     playedChallenges = [];
                     localStorage.removeItem('playedChallenges');
+                    if ( totalScore > {{highscore}} ) {
+                                fetch('/challenges/updateHighscore', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        highscore: totalScore,
+                                    }),
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log('Highscore updated:', data);
+                                    })
+                                    .catch((error) => {
+                                        console.error('Error:', error);
+                                    });
+                            }  
+                    localStorage.setItem('score', 0);
                     window.location.href = "/";
                 }
-            }, 2000); // Retrasa la alerta y las acciones subsiguientes en 2 segundos
+            clearInterval(checkWinInterval);
         }
-    });
+    }, 1000); // Comprueba cada segundo
+
+    function obtenerPuntuación(timerTriggered) {
+        return Math.floor(1000 / timerTriggered);
+    }
+
+</script>
+<script>
+
+    var startTime, timerInterval, timerValueWhenConditionMet;
+
+
+    function updateTimer() {
+
+        var currentTime = Date.now();
+        var elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        timerValueWhenConditionMet = elapsedTime;
+
+
+        document.getElementById("timer-container").innerText = 'Tiempo de partida: ' + elapsedTime + ' segundos';
+    }
+    document.getElementById("score-container").innerText = 'Puntuación: ' + localStorage.getItem('score');
+
+    function startTimer() {
+        // Guarda el tiempo de inicio
+        startTime = Date.now();
+
+        // Inicia el temporizador para que llame a updateTimer cada 1000 milisegundos (1 segundo)
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // Inicia el temporizador cuando se carga la página
+    startTimer();
 </script>

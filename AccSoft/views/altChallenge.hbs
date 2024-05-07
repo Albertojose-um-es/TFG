@@ -7,32 +7,47 @@
             <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 ¿Necesitas ayuda?
             </button>
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="div" id="timer-container"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="div" id="score-container"></div>
+        </div>
+        <div class="col-md-4">
+            <p id="highscore">Máxima puntuación: {{highscore}}</p>
         </div>
     </div>
     <div class="row">
-
         <div class="gallery">
             <h5>Etiqueta las siguientes imágenes con texto alternativo para que sean accesibles para personas con
                 discapacidad visual.</h5>
-            <div class="image-container py-5">
-                <img id="image1" src="/images/logo.jpg" alt="Ejemplo" style="max-width: 500px;">
-                <input id="altText1" type="text" placeholder="Escribe la descripción de la imagen aquí">
-                <button class="applyAltText btn btn-primary" data-image-id="image1" data-input-id="altText1">Aplicar
+            <div class="row">
+                <div class="col-md-4 image-container">
+                <img id="image1" class="img-fluid py-2" src="/images/logo.jpg">
+                <input id="altText1" type="text" placeholder="New alt info">
+                <button class="applyAltText btn btn-primary py-2" data-image-id="image1" data-input-id="altText1">Aplicar
                     descripción</button>
             </div>
-            <div class="image-container">
-                <img id="image2" src="image2.jpg">
-                <input id="altText2" type="text" placeholder="Escribe la descripción de la imagen aquí">
-                <button class="applyAltText btn btn-primary" data-image-id="image2" data-input-id="altText2">Aplicar
+            <div class="col-md-4 image-container">
+                <img id="image2" src="/images/ui.jpg" class="img-fluid py-2">
+                <input id="altText2" type="text" placeholder="New alt info">
+                <button class="applyAltText btn btn-primary py-2" data-image-id="image2" data-input-id="altText2">Aplicar
                     descripción</button>
             </div>
-            <div class="image-container">
-                <img id="image3" src="image3.jpg">
-                <input id="altText3" type="text" placeholder="Escribe la descripción de la imagen aquí">
-                <button class="applyAltText btn btn-primary" data-image-id="image3" data-input-id="altText3">Aplicar
+            <div class="col-md-4 image-container">
+                <img id="image3" src="/images/forest.jpg" class="img-fluid py-2">
+                <input id="altText3" type="text" placeholder="New alt info">
+                <button class="applyAltText btn btn-primary py-2" data-image-id="image3" data-input-id="altText3">Aplicar
                     descripción</button>
+            </div>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <hr class="my-4">
     </div>
 
 </div>
@@ -97,6 +112,8 @@
                 alert('Por favor, escribe una descripción para la imagen.');
             } else {
                 document.getElementById(imageId).alt = altText;
+                document.getElementById(inputId).value = '';
+                alert('¡Alt actualizado con éxito! Desde inspeccionar la página puedes observar la nueva etiqueta.'); // Add this line to notify the player
 
                 // Comprueba si todas las imágenes tienen etiquetas alt
                 var images = document.querySelectorAll('.gallery img');
@@ -104,8 +121,14 @@
 
                 if (allImagesHaveAltTags) {
                     setTimeout(function () {
-                        alert('¡Bien hecho! Todas las imágenes tienen etiquetas alt.');
-                        // Aquí puedes redirigir al jugador al siguiente desafío o hacer lo que necesites
+
+                        var newScore = obtenerPuntuación(timerValueWhenConditionMet);
+                        var currentScore = parseInt(localStorage.getItem('score'));
+                        var totalScore = currentScore + newScore;
+                        localStorage.setItem('score', totalScore);
+                        clearInterval(timerInterval);
+                        alert('¡Desafío completado con éxito! Con puntuación de ' + totalScore);
+
                         if (!playedChallenges.includes(window.location.pathname)) {
                             playedChallenges.push(window.location.pathname);
                             localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
@@ -127,6 +150,25 @@
                             // Borra la lista de desafíos jugados
                             playedChallenges = [];
                             localStorage.removeItem('playedChallenges');
+                            if ( totalScore > {{highscore}} ) {
+                                fetch('/challenges/updateHighscore', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        highscore: totalScore,
+                                    }),
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log('Highscore updated:', data);
+                                    })
+                                    .catch((error) => {
+                                        console.error('Error:', error);
+                                    });
+                            }
+                            localStorage.setItem('score', 0);
                             window.location.href = "/";
                         }
                     }, 2000); // Retrasa la alerta y las acciones subsiguientes en 2 segundos
@@ -135,4 +177,35 @@
             }
         });
     });
+
+    function obtenerPuntuación(timerTriggered) {
+        return Math.floor(1000 / timerTriggered);
+    }
+</script>
+<script>
+
+    var startTime, timerInterval, timerValueWhenConditionMet;
+
+
+    function updateTimer() {
+
+        var currentTime = Date.now();
+        var elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        timerValueWhenConditionMet = elapsedTime;
+
+
+        document.getElementById("timer-container").innerText = 'Tiempo de partida: ' + elapsedTime + ' segundos';
+    }
+    document.getElementById("score-container").innerText = 'Puntuación: ' + localStorage.getItem('score');
+
+    function startTimer() {
+        // Guarda el tiempo de inicio
+        startTime = Date.now();
+
+        // Inicia el temporizador para que llame a updateTimer cada 1000 milisegundos (1 segundo)
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // Inicia el temporizador cuando se carga la página
+    startTimer();
 </script>
