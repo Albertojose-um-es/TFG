@@ -1,13 +1,89 @@
 <div class="container">
-    <h1>Desafío: Reorganiza y etiqueta los enlaces de navegación</h1>
-    <nav id="navBar">
-        <a href="#">Enlace 1</a>
-        <a href="#">Enlace 2</a>
-        <a href="#">Enlace 3</a>
-        <a href="#">Enlace 4</a>
-    </nav>
-    <button type="button" id="applyStructure" class="btn btn-primary">Aplicar estructura</button>
+    <div class="py-5 d-flex justify-content-center">
+        <div class="col-md-10">
+            <h1>Desafío sobre los problemas en las estructura de la página</h1>
+        </div>
+        <div class="col-md-2 p-1">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                ¿Necesitas ayuda?
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="div" id="timer-container"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="div" id="score-container"></div>
+        </div>
+        <div class="col-md-4">
+            <p id="highscore">Máxima puntuación: {{highscore}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <h5>Desafío: Reorganiza y etiqueta los enlaces de navegación</h5>
+        <div class="container">
+            <div class="row">
+                <p>En este desafío, debes reorganizar los enlaces de navegación y etiquetarlos correctamente. Para ello,
+                sigue los siguientes pasos:</p>
+                <ol>
+                    <li>Reorganiza los enlaces de navegación de forma que estén ordenados alfabéticamente.</li>
+                    <li>Etiqueta cada enlace con el texto "Enlace X", donde X es el número de enlace.</li>
+                    <li>Asegurate de usar las etiquetas HTML correctas.</li>
+                </ol>
+            </div>
+            <!-- As a heading -->
+            <nav id="navBar" class="navbar navbar-light bg-warning">
+                <span class="navbar-brand mb-0 h1 " id="navBar">Navbar</span>
+                <a class="nav-link" href="#">Enlace 4</a>
+                <a class="nav-link" href="#">Enlace 2</a>
+                <a class="nav-link" href="#">Enlace 1</a>
+                <a class="nav-link" href="#">Enlace 3</a>
+            </nav>
+        </div>
+    </div>
+
+    <form class="form m-2" id="navigationForm">
+        <div class="row">
+            <label class="label" for="navigationInput">Estructura del Menú de Navegación:</label>
+            <textarea id="navigationInput" rows="8" cols="30" placeholder="Ingrese aquí la estructura HTML del menú de navegación reorganizado y etiquetado..."></textarea>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary btn-lg m-2" type="submit">Verificar</button>
+        </div>
+    </form>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Información útil</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <h2>Estructura de contenido según las pautas de la WCAG</h2>
+                <p>Las Pautas de Accesibilidad para el Contenido Web (WCAG) recomiendan estructurar el contenido de manera lógica y coherente. Esto ayuda a las personas que utilizan lectores de pantalla y a las personas con dificultades cognitivas a entender y navegar por el contenido.</p>
+                <p>Algunas recomendaciones para la estructura del contenido incluyen:</p>
+                <ul>
+                    <li>Utilizar encabezados (h1, h2, h3, etc.) para organizar el contenido.</li>
+                    <li>Utilizar listas (ul, ol) para agrupar elementos relacionados.</li>
+                    <li>Utilizar etiquetas de marcado semántico (nav, main, aside, etc.) para identificar las secciones de la página.</li>
+                    <li>Proporcionar un orden de tabulación lógico que coincida con el flujo visual del contenido.</li>
+                </ul>
+                <p>En este desafío, debes reorganizar y etiquetar la estructura del menú de navegación para que cumpla con estas pautas.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
 <script>
     var challenges = [
@@ -19,60 +95,118 @@
         '/challenges/structureChallenge2',
     ];
 
+    var navCorrectInnerHTML = '<nav class="navbar navbar-light bg-warning"><span class="navbar-brand mb-0 h1">Navbar</span><a class="nav-link" href="#">Enlace 1</a><a class="nav-link" href="#">Enlace 2</a><a class="nav-link" href="#">Enlace 3</a><a class="nav-link" href="#">Enlace 4</a></nav>';
+
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
     var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
 
-    document.getElementById('applyStructure').addEventListener('click', function () {
-        var navBar = document.getElementById('navBar');
-        var links = Array.from(navBar.getElementsByTagName('a'));
+    function verifyStructure() {
+        alert('¡Felicidades! Has completado el desafío');
+        var newScore = obtenerPuntuación(timerValueWhenConditionMet);
+        var score = parseInt(localStorage.getItem('score')) + newScore;
+        localStorage.setItem('score', score);
+        clearInterval(timerInterval);
+        alert('¡Desafío completado con éxito! Con puntuación de ' + score);
+        if (!playedChallenges.includes(window.location.pathname)) {
+            playedChallenges.push(window.location.pathname);
+            localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+        }
+        if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+            alert('Avanzando al siguiente desafío...');
 
-        var newNav = document.createElement('nav');
-        var list = document.createElement('ul');
-        list.setAttribute('role', 'menubar');
+            // Filtra los desafíos para excluir los que el usuario ya ha jugado
+            var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
 
-        links.forEach(function (link, index) {
-            var listItem = document.createElement('li');
-            listItem.setAttribute('role', 'none');
+            // Genera un número aleatorio entre 0 y el número de desafíos restantes
+            var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
 
-            var newLink = document.createElement('a');
-            newLink.setAttribute('role', 'menuitem');
-            newLink.href = link.href;
-            newLink.innerHTML = 'Enlace ' + (index + 1);
-
-            listItem.appendChild(newLink);
-            list.appendChild(listItem);
-        });
-
-        newNav.appendChild(list);
-        navBar.innerHTML = '';
-        navBar.appendChild(newNav);
-
-        setTimeout(function () {
-            alert('¡Desafío completado con éxito!');
-            if (!playedChallenges.includes(window.location.pathname)) {
-                playedChallenges.push(window.location.pathname);
-                localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
-            }
-
-            if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
-                alert('Avanzando al siguiente desafío...');
-
-                // Filtra los desafíos para excluir los que el usuario ya ha jugado
-                var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
-
-                // Genera un número aleatorio entre 0 y el número de desafíos restantes
-                var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
-
-                // Redirige al usuario al desafío seleccionado
-                var nextChallenge = remainingChallenges[nextChallengeIndex];
-                window.location.href = nextChallenge;
-            } else {
-                alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
-                // Borra la lista de desafíos jugados
-                playedChallenges = [];
-                localStorage.removeItem('playedChallenges');
-                window.location.href = "/";
-            }
-        }, 2000);
+            // Redirige al usuario al desafío seleccionado
+            var nextChallenge = remainingChallenges[nextChallengeIndex];
+            window.location.href = nextChallenge;
+        } else {
+            alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
+            // Borra la lista de desafíos jugados
+            playedChallenges = [];
+            localStorage.removeItem('playedChallenges');
+            if (score > {{ highscore }} ) {
+            fetch('/challenges/updateHighscore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    highscore: score,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Highscore updated:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+        localStorage.setItem('score', 0);
+        window.location.href = "/";
+    }
+}
+    document.getElementById('navigationForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        alert('Verificando...');
+        var navigationInput = document.getElementById('navigationInput').value;
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(navigationInput, 'text/html');
+        var nav = doc.getElementsByTagName('nav')[0];
+        alert(nav.innerHTML);
+        if (!nav) {
+            alert('No se encontró el elemento nav.');
+            return;
+        }
+        console.log(nav.innerHTML);
+        var links = Array.from(nav.getElementsByTagName('a'));
+        var check;
+        var isOrdered = links.every(function(link, index) {
+            return link.textContent.trim() === 'Enlace ' + (index + 1);
+        }) && links.length === 4;
+        if (isOrdered) {
+            verifyStructure();   
+        }
+        else {
+            alert('La estructura del menú de navegación no es correcta.');
+        }
     });
+
+
+    
+</script>
+<script>
+
+    function obtenerPuntuación(timerTriggered) {
+        return Math.floor(1000 / timerTriggered);
+    }
+
+    var startTime, timerInterval, timerValueWhenConditionMet;
+
+
+    function updateTimer() {
+
+        var currentTime = Date.now();
+        var elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        timerValueWhenConditionMet = elapsedTime;
+
+
+        document.getElementById("timer-container").innerText = 'Tiempo de partida: ' + elapsedTime + ' segundos';
+    }
+    document.getElementById("score-container").innerText = 'Puntuación: ' + localStorage.getItem('score');
+
+    function startTimer() {
+        // Guarda el tiempo de inicio
+        startTime = Date.now();
+
+        // Inicia el temporizador para que llame a updateTimer cada 1000 milisegundos (1 segundo)
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // Inicia el temporizador cuando se carga la página
+    startTimer();
 </script>
