@@ -6,24 +6,9 @@ var app = express();
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/", function (req, res, next) {
-  ayudante.getConnection()
-      .then((con) => {
-          return ayudante.getContactoPorEmail(con, req.session.email);
-      })
-      .then((data) => {  
-          req.session.highscore = data[0].highscore;
-          res.render("play", { tittle: "Jugar", highscore: data[0].highscore });
-      })
-      .catch(error => {
-          console.log(error);
-      });
+router.get("/", async function (req, res, next) {
+  res.render("play", { tittle: "AccSoft" , highscore: req.session.highscore});
 });
-
-
-
-
-
   
 router.get("/info", function (req, res, next) {
   res.render("info", { tittle: "Información" });
@@ -61,6 +46,11 @@ router.get("/structureChallenge2", async function (req, res, next) {
 
 router.get("/formChallenge", async function (req, res, next) {
   res.render("formChallenge", {
+    tittle: "Desafío de formulario", highscore: req.session.highscore});
+});
+
+router.get("/formChallenge2", async function (req, res, next) {
+  res.render("formChallenge2", {
     tittle: "Desafío de formulario", highscore: req.session.highscore});
 });
 

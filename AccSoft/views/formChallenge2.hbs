@@ -34,56 +34,58 @@
                 <div class="card text-start">
                     <h5 class="m-3">Incluye los datos de tu pedido.</h5>
                     <div class="card-body">
-                        <form id="formPedido">
+                        <form id="registrationForm" class="g-3 was-validation">
                             <div class="mb-3">
-                                <label for="name" id="label1" class="form-label">Campo 1</label>
-                                <input type="text" class="form-control" id="name" placeholder="Ingrese su nombre">
+                                <label for="fullName" class="form-label">Nombre completo:</label>
+                                <input type="text" class="form-control is-invalid" id="fullName" name="fullName" required minlength="3">
+                                <div class="invalid-feedback" id="campo1">
+                                    Error.
+                                </div>
                             </div>
                             <div class="mb-3">
-                                <label for="email" id="label2" class="form-label">Correo electrónico</label>
-                                <input type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico">
+                                <label for="email" class="form-label">Correo electrónico:</label>
+                                <input type="email" class="form-control is-invalid" id="email" name="email" required>
+                                <div class="invalid-feedback" id="campo2">
+                                    Error.
+                                </div>
                             </div>
                             <div class="mb-3">
-                                <label for="address" id="label3" class="form-label">Dirección de envío</label>
-                                <textarea class="form-control" id="address" rows="3"
-                                    placeholder="Ingrese su dirección de envío"></textarea>
+                                <label for="password" class="form-label">Contraseña:</label>
+                                <input type="password" class="form-control is-invalid" id="password" name="password" required minlength="8" placeholder="Contraseña obligatoria y de al menos 8 caracteres">
+                                <div class="invalid-feedback" id="campo3">
+                                    La contraseña es obligatoria y debe tener al menos 8 caracteres.
+                                </div>
                             </div>
                             <div class="mb-3">
-                                <label for="phone" id="label4" class="form-label">Campo 4</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="Ingrese su número de teléfono">
+                                <label for="confirmPassword" class="form-label">Confirmar contraseña:</label>
+                                <input type="password" class="form-control is-invalid" id="confirmPassword" required minlength="8" name="confirmPassword" required>
+                                <div class="invalid-feedback" id="campo4">
+                                    Por favor, confirme su contraseña.
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="product" id="label5" class="form-label">Producto</label>
-                                <select class="form-select" id="product">
-                                    <option selected>Seleccione un producto</option>
-                                    <option value="1">Producto 1</option>
-                                    <option value="2">Producto 2</option>
-                                    <option value="3">Producto 3</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="quantity" id="label6" class="form-label">Cantidad</label>
-                                <input type="number" class="form-control" id="quantity" placeholder="Ingrese la cantidad">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Realizar pedido</button>
+                            <button type="submit" class="btn btn-primary">Registrarse</button>
                         </form>
+
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row" id="rules-container">
-                    <h5>Reglas para nombrar adecuadamente los campos del formulario:</h5>
+                    <h5>Reglas para crear las alertas de comprobaciones en los formularios:</h5>
                     <ul>
-                        <li> Debes escribir el elemento "&lt;label id=&quot;labelX&quot;&gt;Nuevo nombre&lt;/label&gt;" </li>
-                        <li> Donde X es el número de la etiqueta que deseas cambiar (1-7) </li>
-                        <li> El nuevo nombre debe ser descriptivo y claro para todos los usuarios </li>
+                        <li> Debes escribir el elemento como: </li>
+                        <li> "&lt;div class=&quot;invalid-feedback&quot; id=&quot;campoX&quot;&gt;Mensaje de error&lt;/div&gt;"</li>
+                        <li> Donde X (1-4) es el número del campo donde quieres añadir ese mensaje</li>
+                        <li> El mensaje de error debe ser descriptivo y útil para el usuario </li>
+                        <li> Sabiendo que el nombre debe tener mínimo 3 carácteres y que el correo electrónico debe tener un formato válido.</li>
+                        <li> Crea unos mensajes adecuados para ello.</li>
                     </ul>
                 </div>
                 <div class="row">
                     <div class="mb-3">
-                        <form id="formLabel">
+                        <form id="formInfo">
                             <label for="newLabel" class="form-label">Cambiar etiqueta:</label>
-                            <textarea class="form-control" id="newLabel" rows="3"
+                            <textarea class="form-control" id="newInfo" rows="3"
                                 placeholder="Escriba el nuevo nombre de la etiqueta"></textarea>
                             <button type="submit" class="btn btn-primary mt-2">Cambiar etiqueta</button>
                         </form>
@@ -136,9 +138,10 @@
     </div>
 </div>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <script>
     var challenges = [
         '/challenges/contrastChallenge',
@@ -154,38 +157,59 @@
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
     var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
 
-    document.getElementById('formLabel').addEventListener('submit', function(event) {
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+        })
+    })();
+
+    document.getElementById('formInfo').addEventListener('submit', function(event) {
     // Prevenir el comportamiento predeterminado del formulario
     event.preventDefault();
 
     // Obtener el texto introducido en el textarea
-    var inputText = document.getElementById('newLabel').value.trim();
+    var inputText = document.getElementById('newInfo').value.trim();
 
     // Utilizar una expresión regular para extraer el número de la etiqueta y el nuevo nombre de la etiqueta
-    var match = inputText.match(/<label id="label(\d+)">(.*?)<\/label>/);
-
+    var match = inputText.match(/<div class="invalid-feedback" id="campo(\d+)">(.*?)<\/div>/);
     if (match) {
         // Obtener el número de la etiqueta y el nuevo nombre de la etiqueta
-        var labelNumber = match[1];
-        var newLabelName = match[2];
+        var infoNumber = match[1];
+        var newInfo = match[2];
 
         // Construir el ID de la etiqueta
-        var labelId = 'label' + labelNumber;
+        var infoId = 'campo' + infoNumber;
 
         // Obtener la etiqueta con el ID construido
-        var label = document.getElementById(labelId);
+        var inf = document.getElementById(infoId);
 
         // Actualizar el texto de la etiqueta con el nuevo nombre de la etiqueta
-        label.textContent = newLabelName;
+        inf.textContent = newInfo;
     } else {
         // Mostrar un mensaje de error si el texto introducido en el textarea no sigue el formato esperado
         alert('Por favor, introduce el nuevo nombre de la etiqueta en el formato correcto.');
     }
+
 });
 
 
 function checkChallengeCompletion() {
-    if (document.getElementById('label1').textContent === 'Nombre' && document.getElementById('label4').textContent === 'Teléfono') {
+    if (verificarMensajesError()) {
         alert('¡Felicidades! Has completado el desafío');
         var newScore = obtenerPuntuación(timerValueWhenConditionMet);
         var currentScore = parseInt(localStorage.getItem('score'));
@@ -240,23 +264,50 @@ function checkChallengeCompletion() {
     }
 }
 
-// Comprobar la finalización del desafío cada segundo
-var checkInterval = setInterval(checkChallengeCompletion, 1500);
+function verificarMensajesError() {
+    // Obtener los mensajes de error
+    var mensajeErrorCampo1 = document.getElementById('campo1').innerText;
+    var mensajeErrorCampo2 = document.getElementById('campo2').innerText;
 
-</script>
-<script>
+    // Definir los criterios
+    var longitudMinima = 10;
+    var palabrasClave = ['obligatorio', 'inválido', 'requerido', 'incorrecto'];
+    var mensajeErrorPredeterminado = 'Error';
+
+    // Verificar la longitud
+    if (mensajeErrorCampo1.length < longitudMinima || mensajeErrorCampo2.length < longitudMinima) {
+        console.log('Los mensajes de error deben tener al menos ' + longitudMinima + ' caracteres.');
+        return false;
+    }
+
+    // Verificar las palabras clave
+    var contienePalabraClave = palabrasClave.some(function(palabraClave) {
+        return mensajeErrorCampo1.includes(palabraClave) || mensajeErrorCampo2.includes(palabraClave);
+    });
+    if (!contienePalabraClave) {
+        console.log('Los mensajes de error deben contener al menos una de las siguientes palabras clave: ' + palabrasClave.join(', '));
+        return false;
+    }
+
+    // Verificar si los mensajes de error son diferentes del predeterminado
+    if (mensajeErrorCampo1 === mensajeErrorPredeterminado || mensajeErrorCampo2 === mensajeErrorPredeterminado) {
+        console.log('Los mensajes de error deben ser diferentes del mensaje de error predeterminado.');
+        return false;
+    }
+
+    // Si se cumplen todos los criterios, devolver true
+    return true;
+}
+// Comprobar la finalización del desafío cada segundo
+var checkInterval = setInterval(checkChallengeCompletion, 2000);
+
 var startTime, timerInterval, timerValueWhenConditionMet;
 
-function obtenerPuntuación(timerTriggered) {
-    var maxScore = 200;
-    var timeThreshold = 10; // Time threshold in seconds
-    var timePenalty = 10; // Penalty per second
+    function obtenerPuntuación(timerTriggered) {
+        return Math.floor(1000 / timerTriggered);
+    }
 
-    var elapsedTime = Math.min(timerTriggered, timeThreshold);
-    var score = maxScore - (elapsedTime * timePenalty);
 
-    return Math.max(score, 0);
-}
 
     function updateTimer() {
 
