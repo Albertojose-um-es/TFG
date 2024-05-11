@@ -59,6 +59,11 @@ router.get("/structureChallenge2", async function (req, res, next) {
     tittle: "Desafío de estructura", highscore: req.session.highscore});
 });
 
+router.get("/formChallenge", async function (req, res, next) {
+  res.render("formChallenge", {
+    tittle: "Desafío de formulario", highscore: req.session.highscore});
+});
+
 router.get("/highscore", async function (req, res, next) {
     ayudante.getConnection()
             .then( con => {

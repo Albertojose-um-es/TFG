@@ -1,0 +1,281 @@
+<div class="container">
+    <div class="py-5 d-flex justify-content-center">
+        <div class="col-md-10">
+            <h1>Desafío sobre la accesibilidad en formularios</h1>
+        </div>
+        <div class="col-md-2 p-1">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                ¿Necesitas ayuda?
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="div" id="timer-container"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="div" id="score-container"></div>
+        </div>
+        <div class="col-md-4">
+            <p id="highscore">Máxima puntuación: {{highscore}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <h5>Este formulario tiene campos con nombres ambiguos, cambia estos nombres para que el formulario sea fácil
+                de entender para todos
+                los usuarios.
+        </h5>
+    </div>
+    <div class="row">
+        <hr class="my-4">
+    </div>
+    <div class="row">
+            <div class="col-md-6">
+                <div class="card text-start">
+                    <h5 class="m-3">Incluye los datos de tu pedido.</h5>
+                    <div class="card-body">
+                        <form id="formPedido">
+                            <div class="mb-3">
+                                <label for="name" id="label1" class="form-label">Campo 1</label>
+                                <input type="text" class="form-control" id="name" placeholder="Ingrese su nombre">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" id="label2" class="form-label">Correo electrónico</label>
+                                <input type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico">
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" id="label3" class="form-label">Dirección de envío</label>
+                                <textarea class="form-control" id="address" rows="3"
+                                    placeholder="Ingrese su dirección de envío"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" id="label4" class="form-label">Campo 4</label>
+                                <input type="tel" class="form-control" id="phone" placeholder="Ingrese su número de teléfono">
+                            </div>
+                            <div class="mb-3">
+                                <label for="product" id="label5" class="form-label">Producto</label>
+                                <select class="form-select" id="product">
+                                    <option selected>Seleccione un producto</option>
+                                    <option value="1">Producto 1</option>
+                                    <option value="2">Producto 2</option>
+                                    <option value="3">Producto 3</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantity" id="label6" class="form-label">Cantidad</label>
+                                <input type="number" class="form-control" id="quantity" placeholder="Ingrese la cantidad">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Realizar pedido</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row" id="rules-container">
+                    <h5>Reglas para nombrar adecuadamente los campos del formulario:</h5>
+                    <ul>
+                        <li> Debes escribir el elemento "&lt;label id=&quot;labelX&quot;&gt;Nuevo nombre&lt;/label&gt;" </li>
+                        <li> Donde X es el número de la etiqueta que deseas cambiar (1-7) </li>
+                        <li> El nuevo nombre debe ser descriptivo y claro para todos los usuarios </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <form id="formLabel">
+                            <label for="newLabel" class="form-label">Cambiar etiqueta:</label>
+                            <textarea class="form-control" id="newLabel" rows="3"
+                                placeholder="Escriba el nuevo nombre de la etiqueta"></textarea>
+                            <button type="submit" class="btn btn-primary mt-2">Cambiar etiqueta</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+        <hr class="my-4">
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Información útil</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2>Accesibilidad de formularios según las pautas de la WCAG</h2>
+                <p>Las Pautas de Accesibilidad para el Contenido Web (WCAG) proporcionan varias recomendaciones para
+                    hacer que los formularios sean más accesibles. Algunas de estas recomendaciones incluyen:</p>
+                <ul>
+                    <li><strong>Etiquetas descriptivas:</strong> Cada campo de entrada debe tener una etiqueta que
+                        describa claramente su propósito. Esto ayuda a las personas que utilizan lectores de pantalla y
+                        a las personas con dificultades cognitivas a entender qué se espera que ingresen en cada campo.
+                    </li>
+                    <li><strong>Indicación de campos obligatorios:</strong> Si un campo es obligatorio, esto debe
+                        indicarse claramente. Esto puede hacerse mediante el uso de la palabra "obligatorio" en la
+                        etiqueta del campo, o mediante el uso de un asterisco y una nota que explique que los campos
+                        marcados con un asterisco son obligatorios.</li>
+                    <li><strong>Mensajes de error claros:</strong> Si el usuario comete un error al rellenar el
+                        formulario, debe recibir un mensaje de error claro que le indique qué ha hecho mal y cómo puede
+                        corregirlo.</li>
+                    <li><strong>Orden lógico:</strong> Los campos de entrada deben estar ordenados de manera lógica.
+                        Esto puede ser de arriba a abajo y de izquierda a derecha para las personas que leen en idiomas
+                        que se escriben de esta manera.</li>
+                </ul>
+                <p>En este desafío, debes mejorar las etiquetas de los campos de entrada para hacerlas más descriptivas
+                    y comprensibles, y asegurarte de que el formulario cumple con estas pautas de accesibilidad.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script>
+    var challenges = [
+        '/challenges/contrastChallenge',
+        '/challenges/contrastChallenge2',
+        '/challenges/altChallenge',
+        '/challenges/altChallenge2',
+        '/challenges/structureChallenge',
+        '/challenges/structureChallenge2',
+        '/challenges/formChallenge',
+    ];
+
+    // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
+    var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
+
+    document.getElementById('formLabel').addEventListener('submit', function(event) {
+    // Prevenir el comportamiento predeterminado del formulario
+    event.preventDefault();
+
+    // Obtener el texto introducido en el textarea
+    var inputText = document.getElementById('newLabel').value.trim();
+
+    // Utilizar una expresión regular para extraer el número de la etiqueta y el nuevo nombre de la etiqueta
+    var match = inputText.match(/<label id="label(\d+)">(.*?)<\/label>/);
+
+    if (match) {
+        // Obtener el número de la etiqueta y el nuevo nombre de la etiqueta
+        var labelNumber = match[1];
+        var newLabelName = match[2];
+
+        // Construir el ID de la etiqueta
+        var labelId = 'label' + labelNumber;
+
+        // Obtener la etiqueta con el ID construido
+        var label = document.getElementById(labelId);
+
+        // Actualizar el texto de la etiqueta con el nuevo nombre de la etiqueta
+        label.textContent = newLabelName;
+    } else {
+        // Mostrar un mensaje de error si el texto introducido en el textarea no sigue el formato esperado
+        alert('Por favor, introduce el nuevo nombre de la etiqueta en el formato correcto.');
+    }
+});
+
+
+function checkChallengeCompletion() {
+    if (document.getElementById('label1').textContent === 'Nombre' && document.getElementById('label4').textContent === 'Teléfono') {
+        alert('¡Felicidades! Has completado el desafío');
+        var newScore = obtenerPuntuación(timerValueWhenConditionMet);
+        var currentScore = parseInt(localStorage.getItem('score'));
+        var totalScore = currentScore + newScore;
+        localStorage.setItem('score', totalScore);
+        clearInterval(timerInterval);
+        alert('¡Desafío completado con éxito! Con puntuación de ' + totalScore);
+
+        if (!playedChallenges.includes(window.location.pathname)) {
+            playedChallenges.push(window.location.pathname);
+            localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+        }
+        if (playedChallenges.length < 1 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+            alert('Avanzando al siguiente desafío...');
+
+            // Filtra los desafíos para excluir los que el usuario ya ha jugado
+            var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
+
+            // Genera un número aleatorio entre 0 y el número de desafíos restantes
+            var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
+
+            // Redirige al usuario al desafío seleccionado
+            var nextChallenge = remainingChallenges[nextChallengeIndex];
+            window.location.href = nextChallenge;
+        } else {
+            alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
+            // Borra la lista de desafíos jugados
+            playedChallenges = [];
+            localStorage.removeItem('playedChallenges');
+            if (totalScore > {{ highscore }} ) {
+            fetch('/challenges/updateHighscore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    highscore: totalScore,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Highscore updated:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+        localStorage.setItem('score', 0);
+        window.location.href = "/";
+        }
+        clearInterval(checkInterval);
+    }
+}
+
+// Comprobar la finalización del desafío cada segundo
+var checkInterval = setInterval(checkChallengeCompletion, 1500);
+
+</script>
+<script>
+var startTime, timerInterval, timerValueWhenConditionMet;
+
+function obtenerPuntuación(timerTriggered) {
+    var maxScore = 200;
+    var timeThreshold = 10; // Time threshold in seconds
+    var timePenalty = 10; // Penalty per second
+
+    var elapsedTime = Math.min(timerTriggered, timeThreshold);
+    var score = maxScore - (elapsedTime * timePenalty);
+
+    return Math.max(score, 0);
+}
+
+    function updateTimer() {
+
+        var currentTime = Date.now();
+        var elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        timerValueWhenConditionMet = elapsedTime;
+
+
+        document.getElementById("timer-container").innerText = 'Tiempo de partida: ' + elapsedTime + ' segundos';
+    }
+    document.getElementById("score-container").innerText = 'Puntuación: ' + localStorage.getItem('score');
+
+    function startTimer() {
+        // Guarda el tiempo de inicio
+        startTime = Date.now();
+
+        // Inicia el temporizador para que llame a updateTimer cada 1000 milisegundos (1 segundo)
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // Inicia el temporizador cuando se carga la página
+    startTimer();
+</script>
