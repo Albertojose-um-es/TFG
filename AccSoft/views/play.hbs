@@ -1,27 +1,29 @@
 <div class="container">
     <div class="row mt-5">
         <div class="col-md-6 offset-md-3">
-            <h1 class="text-center mb-4">¡Bienvenido al Juego de Accesibilidad!</h1>
+            <h1 class="text-center mb-4">¡Bienvenido a Accesibility Fixer!</h1>
             <p class="lead">El objetivo de este juego es aprender sobre accesibilidad web mientras te diviertes. A
                 continuación, encontrarás algunas reglas básicas:</p>
             <ul>
                 <li>Completa cada desafío siguiendo las indicaciones proporcionadas.</li>
                 <li>Intenta resolver los desafíos de la manera más accesible posible.</li>
                 <li>Gana puntos por cada desafío completado correctamente.</li>
+                <li>Cuanto menos tiempo tardes en resolver cada desafío mayor será tu puntuación.</li>
             </ul>
+            <div id="highscore">
+                Tu mejor puntuación fue {{highscore}} puntos.
+            </div>
         </div>
         <div class="row mt-5 text-center py-3">
             <div class="col-md-6">
                 <button onclick="play()" class="btn btn-primary w-50">Jugar</button>
             </div>
             <div class="col-md-6">
-                <button type="button" class="btn btn-secondary w-50" data-toggle="modal" data-target="#rulesModal">
-                    Ver Reglas
+                <button onclick="highscores()" class="btn btn-secondary w-50">
+                    Ver mejores puntajes
                 </button>
             </div>
-            <div>
-                Your last highscore was {{highscore}} points.
-            </div>
+            
         </div>
     </div>
 </div>
@@ -50,10 +52,35 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
 <script>
+    $(document).ready(function () {
+            // Verificar el estado de inicio de sesión al cargar la página
+            checkLoginStatus();
+            // Función para verificar el estado de inicio de sesión
+            function checkLoginStatus() {
+                $.ajax({
+                    url: '/checkLoginStatus', // Ruta en tu servidor para verificar el estado de inicio de sesión
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.loggedIn) {
+                            // Si el usuario ha iniciado sesión, mostrar "Cerrar sesión" y ocultar "Iniciar sesión" y "Registrar usuario"
+                            $('#highscore').show();
+                        } else {
+                            // Si el usuario no ha iniciado sesión, mostrar "Iniciar sesión" y "Registrar usuario" y ocultar "Cerrar sesión"
+                            $('#highscore').hide();
+                        }
+                    }
+                });
+            }
+        });
     var challenges = [
        /* '/challenges/contrastChallenge',
         '/challenges/contrastChallenge2',
@@ -61,14 +88,20 @@
         '/challenges/altChallenge2',
         '/challenges/structureChallenge',
         '/challenges/structureChallenge2',
-        '/challenges/formChallenge',*/
+        '/challenges/formChallenge',
         '/challenges/formChallenge2',
+        '/challenges/keyboardChallenge2',*/
+        '/challenges/keyboardChallenge',
     ];
 
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
     var playedChallenges = [];
     if(!localStorage.getItem('score')){
         localStorage.setItem('score', 0);
+    }
+    
+    function highscores() {
+        window.location.href = '/challenges/highscore';
     }
 
     function play() {
