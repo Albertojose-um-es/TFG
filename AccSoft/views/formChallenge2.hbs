@@ -1,7 +1,7 @@
 <div class="container">
     <div class="py-5 d-flex justify-content-center">
         <div class="col-md-10">
-            <h1>Desafío sobre la accesibilidad en formularios</h1>
+            <h1>Desafío sobre la Comprensibilidad</h1>
         </div>
         <div class="col-md-2 p-1">
             <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -143,16 +143,24 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <script>
-    var challenges = [
+     var perceptibilidad = [
         '/challenges/contrastChallenge',
         '/challenges/contrastChallenge2',
         '/challenges/altChallenge',
-        '/challenges/altChallenge2',
+        '/challenges/subtitlesChallenge',
+    ];
+    var operabilidad = [
         '/challenges/structureChallenge',
         '/challenges/structureChallenge2',
+    ];
+    var comprensibilidad = [
         '/challenges/formChallenge',
         '/challenges/formChallenge2',
+    ];
+    var robustez = [
+        '/challenges/altChallenge2',
         '/challenges/keyboardChallenge',
+        '/challenges/fontSizeChallenge',
     ];
 
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
@@ -223,17 +231,18 @@ function checkChallengeCompletion() {
             playedChallenges.push(window.location.pathname);
             localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
         }
-        if (playedChallenges.length < 1 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+        if (playedChallenges.length < 4 && confirm('¿Quieres avanzar al siguiente desafío?')) {
             alert('Avanzando al siguiente desafío...');
 
             // Filtra los desafíos para excluir los que el usuario ya ha jugado
             var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
 
             // Genera un número aleatorio entre 0 y el número de desafíos restantes
-            var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
+            //CAMBIAR SI SE AÑADEN MAS DESAFIOS DE ROBUSTEZ
+            var nextChallengeIndex = Math.floor(Math.random() * 3);
 
             // Redirige al usuario al desafío seleccionado
-            var nextChallenge = remainingChallenges[nextChallengeIndex];
+            var nextChallenge = robustez[nextChallengeIndex];
             window.location.href = nextChallenge;
         } else {
             alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');

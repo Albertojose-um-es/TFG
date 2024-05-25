@@ -1,12 +1,11 @@
 <div class="container">
     <div class="row mt-5">
-        <div class="col-md-6 offset-md-3">
-            <h1 class="text-center mb-4">¡Bienvenido a Accesibility Fixer!</h1>
-            <p class="lead">El objetivo de este juego es aprender sobre accesibilidad web mientras te diviertes. A
-                continuación, encontrarás algunas reglas básicas:</p>
+        <div class="">
+            <h1 class="text-center mb-4"  style="background-image: linear-gradient(to right, #ff00ff, #00ffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">¡Bienvenido a Accesibility Fixer!</h1>
+            <p class="lead">En este juego vas a enfrentar diferentes situaciones donde se encuentra un problema de accesibilidad, cada desafío estará orientado por un principio de la WCAG.</p>
+            <p class="lead">Tu objetivo es resolver cada desafío respetando las normas de la WCAG, para ello.</p>
             <ul>
                 <li>Completa cada desafío siguiendo las indicaciones proporcionadas.</li>
-                <li>Intenta resolver los desafíos de la manera más accesible posible.</li>
                 <li>Gana puntos por cada desafío completado correctamente.</li>
                 <li>Cuanto menos tiempo tardes en resolver cada desafío mayor será tu puntuación.</li>
             </ul>
@@ -15,38 +14,16 @@
             </div>
         </div>
         <div class="row mt-5 text-center py-3">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <button onclick="play()" class="btn btn-primary w-50">Jugar</button>
             </div>
-            <div class="col-md-6">
-                <button onclick="highscores()" class="btn btn-secondary w-50">
+            <div class="col-md-4">
+                <button onclick="highscores()" class="btn btn-primary  w-50">
                     Ver mejores puntajes
                 </button>
             </div>
-            
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="rulesModal" tabindex="-1" role="dialog" aria-labelledby="rulesModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rulesModalLabel">Reglas del Juego</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <ul>
-                    <li>Completa cada desafío siguiendo las indicaciones proporcionadas.</li>
-                    <li>Intenta resolver los desafíos de la manera más accesible posible.</li>
-                    <li>Gana puntos por cada desafío completado correctamente.</li>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary w" data-dismiss="modal">Cerrar</button>
+            <div class="col-md-4">
+                <a href="/" class="btn btn-secondary w-50">Volver atrás</a>
             </div>
         </div>
     </div>
@@ -81,18 +58,29 @@
                 });
             }
         });
-    var challenges = [
-       /* '/challenges/contrastChallenge',
+    // Lista de desafíos disponibles
+    // Ordenados por principios de la WCAG
+    var perceptibilidad = [
+        '/challenges/contrastChallenge',
         '/challenges/contrastChallenge2',
         '/challenges/altChallenge',
-        '/challenges/altChallenge2',
+        '/challenges/subtitlesChallenge',
+    ];
+    var operabilidad = [
         '/challenges/structureChallenge',
         '/challenges/structureChallenge2',
+    ];
+    var comprensibilidad = [
         '/challenges/formChallenge',
         '/challenges/formChallenge2',
-        '/challenges/keyboardChallenge2',*/
-        '/challenges/keyboardChallenge',
     ];
+    var robustez = [
+        '/challenges/altChallenge2',
+        '/challenges/keyboardChallenge',
+        //FONTISZE CHALLENGE NO VALID
+        '/challenges/fontSizeChallenge',
+    ];
+    var challenges = perceptibilidad.concat(operabilidad, comprensibilidad, robustez);
 
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
     var playedChallenges = [];
@@ -105,11 +93,11 @@
     }
 
     function play() {
-        
+//ASK IF MAKE RANDOM THE ELECTION OF THE CHALLENGE
         // Genera un número aleatorio entre 0 y el número de desafíos restantes
-        var nextChallengeIndex = Math.floor(Math.random() * challenges.length);
+        var nextChallengeIndex = Math.floor(Math.random() * perceptibilidad.length);
         // Obtiene el siguiente desafío
-        var nextChallenge = challenges[nextChallengeIndex];
+        var nextChallenge = perceptibilidad[nextChallengeIndex];
         playedChallenges.push(nextChallenge);
         localStorage.setItem('score', 0);
         localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));

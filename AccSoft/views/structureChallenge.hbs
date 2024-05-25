@@ -1,7 +1,7 @@
 <div class="container">
     <div class="py-5 d-flex justify-content-center">
         <div class="col-md-10">
-            <h1>Desafío sobre la estructura de la página.</h1>
+            <h1>Desafío sobre la Operabilidad.</h1>
         </div>
         <div class="col-md-2 p-1">
             <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -21,14 +21,26 @@
         </div>
     </div>
     <div class="row">
-        <p>En la simulacion de página de noticias a simple vista no falta nada, pero no están incluidos los elementos de
-            estructura que ayudan a las personas con discapacidad a poder ubicarse dentro de la página</p>
-        <p>Escribe los elementos que harían falta en el recuadro de texto y en el orden correcto.</p>
+        <div class="col-md-8">
+            <div id="alarm" class="d-flex justify-content-center text-center"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary" id="next"  style="display: none;" onclick="nextChallenge()">Siguiente desafío</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h5>En la simulacion de página de noticias a simple vista no falta nada, pero no están incluidos los elementos de
+            estructura que ayudan a las personas con discapacidad a poder ubicarse dentro de la página. Escribe los elementos que harían falta en el recuadro de texto y en el orden correcto.</h5>
+    </div>
+    <div class="row">
+        <hr>
     </div>
     <div class="row">
         <div class="col-md-6" id="container">
             <div id="header">
-                <h1>Noticias del día</h1>
+                <h1 class="text text-center">Noticias del día</h1>
             </div>
             <div id="nav">
                 <a href="#">Inicio</a> | <a href="#">Internacional</a> | <a href="#">Deportes</a> | <a
@@ -36,28 +48,28 @@
             </div>
             <div id="main">
                 <div>
-                    <h2>Noticia principal</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc et tincidunt.</p>
+                    <h2 id="titulo1"></h2>
+                    <p id="noticia1"></p>
                 </div>
                 <div>
-                    <h2>Noticia secundaria</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc et tincidunt.</p>
+                    <h2 id="titulo2"></h2>
+                    <p id="noticia2"></p>
                 </div>
                 <div>
-                    <h2>Noticia terciaria</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc et tincidunt.</p>
+                    <h2 id="titulo3"></h2>
+                    <p id="noticia3"></p>
                 </div>
             </div>
             <div id="footer">
                 <p>Contacto: info@noticiasdeldia.com</p>
-                <p>Dirección: Calle Falsa 123</p>
+                <p>Dirección: Calle Fuensanta 23</p>
             </div>
         </div>
 
         <div class="col-md-6 my-2">
             <form id="structureForm">
                 <label class="label" for="structureInput">Ingresa tu estructura HTML aquí:</label>
-                <p>Por ejemplo: header, nav, main, footer</p>
+                <p>En el orden correcto.</p>
                 <div class="row">
                     <textarea id="structureInput" name="structureInput" rows="10" cols="50"></textarea>
                 </div>
@@ -82,7 +94,7 @@
                 <ul>
                     <li>Utilizar encabezados (h1, h2, h3, etc.) para organizar el contenido.</li>
                     <li>Utilizar listas (ul, ol) para agrupar elementos relacionados.</li>
-                    <li>Utilizar etiquetas de marcado semántico (nav, main, aside, etc.) para identificar las secciones de la página.</li>
+                    <li>Utilizar etiquetas de marcado semántico (nav, main, body, aside, , footer, etc.) para identificar las secciones de la página.</li>
                     <li>Proporcionar un orden de tabulación lógico que coincida con el flujo visual del contenido.</li>
                 </ul>
                 <p>En este desafío, debes reorganizar y etiquetar la estructura del menú de navegación para que cumpla con estas pautas.</p>
@@ -101,82 +113,156 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
 <script>
-    var challenges = [
+    var perceptibilidad = [
         '/challenges/contrastChallenge',
         '/challenges/contrastChallenge2',
         '/challenges/altChallenge',
-        '/challenges/altChallenge2',
+        '/challenges/subtitlesChallenge',
+    ];
+    var operabilidad = [
         '/challenges/structureChallenge',
         '/challenges/structureChallenge2',
+    ];
+    var comprensibilidad = [
         '/challenges/formChallenge',
         '/challenges/formChallenge2',
+    ];
+    var robustez = [
+        '/challenges/altChallenge2',
         '/challenges/keyboardChallenge',
+        '/challenges/fontSizeChallenge',
     ];
 
-    // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
     var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
 
-    function verifyStructure() {
-        var container = document.getElementById('container');
-        var elements = container.children;
-        var score = 0;
-
-        if (elements[0] && elements[0].tagName.toLowerCase() === 'header') {
-            score += 25;
-        } else {
-            alert('Falta la etiqueta semántica "header" o no está en la posición correcta.');
+    // Generate news articles
+    var newsArticles1 = [
+        {
+            title: "Nuevos estándares de accesibilidad web anunciados",
+            content: "La Iniciativa de Accesibilidad Web (WAI) ha anunciado nuevos estándares para mejorar la accesibilidad web para personas con discapacidades. Estos estándares proporcionan pautas y técnicas para que los desarrolladores creen sitios web y aplicaciones accesibles."
+        },
+        {
+            title: "Importancia de la accesibilidad mediante el teclado",
+            content: "La accesibilidad mediante el teclado es crucial para las personas con discapacidades motoras que dependen de la navegación mediante el teclado. Los sitios web deben asegurarse de que todos los elementos interactivos se puedan acceder y operar solo con el teclado, sin necesidad de interacción con el mouse."
+        },
+        {
+            title: "Beneficios de los roles y atributos ARIA",
+            content: "Los roles y atributos ARIA (Accessible Rich Internet Applications) mejoran la accesibilidad del contenido web al proporcionar información adicional a las tecnologías de asistencia. Los desarrolladores deben utilizar roles y atributos ARIA para mejorar la experiencia del usuario para las personas con discapacidades."
         }
-
-        if (elements[1] && elements[1].tagName.toLowerCase() === 'nav') {
-            score += 25;
-        } else {
-            alert('Falta la etiqueta semántica "nav" o no está en la posición correcta.');
+    ];
+    var newsArticles2 = [
+        {
+            title: "Nuevas pautas de accesibilidad lanzadas",
+            content: "El Consorcio World Wide Web (W3C) ha lanzado pautas de accesibilidad actualizadas para mejorar la accesibilidad web para personas con discapacidades. Las pautas proporcionan recomendaciones para que los desarrolladores aseguren que sus sitios web sean accesibles para todos los usuarios."
+        },
+        {
+            title: "Aumento de las demandas por accesibilidad web",
+            content: "Ha habido un aumento significativo en las demandas relacionadas con la accesibilidad web. Muchas organizaciones están siendo demandadas por no proporcionar sitios web accesibles, lo cual viola las leyes de discriminación por discapacidad. Es crucial que las empresas prioricen la accesibilidad web para evitar consecuencias legales."
+        },
+        {
+            title: "Importancia del texto alternativo para las imágenes",
+            content: "El texto alternativo es esencial para hacer que las imágenes sean accesibles para las personas con discapacidades visuales. Proporciona una descripción textual de la imagen, permitiendo que los lectores de pantalla transmitan la información a los usuarios. Incluir texto alternativo descriptivo es crucial para garantizar un acceso equitativo al contenido visual."
         }
-
-        if (elements[2] && elements[2].tagName.toLowerCase() === 'main') {
-            score += 25;
-        } else {
-            alert('Falta la etiqueta semántica "main" o no está en la posición correcta.');
+    ];
+    var newsArticles3 = [
+        {
+            title: "La importancia del HTML semántico",
+            content: "El uso de elementos HTML semánticos ayuda a mejorar la accesibilidad y estructura de las páginas web. Al utilizar elementos como <header>, <nav>, <main>, <section> y <footer>, se puede proporcionar una estructura significativa a su contenido y facilitar la navegación y comprensión de su página por parte de las tecnologías de asistencia."
+        },
+        {
+            title: "Herramientas de prueba de accesibilidad web",
+            content: "Existen diversas herramientas disponibles para probar la accesibilidad de su sitio web. Estas herramientas pueden ayudar a identificar problemas de accesibilidad y proporcionar recomendaciones para mejorarla. Algunas herramientas populares de prueba de accesibilidad incluyen Lighthouse, Axe y Wave."
+        },
+        {
+            title: "El papel de ARIA en la accesibilidad web",
+            content: "ARIA (Accessible Rich Internet Applications) es un conjunto de atributos que se pueden agregar a elementos HTML para mejorar su accesibilidad. Los atributos ARIA se pueden utilizar para proporcionar información adicional a las tecnologías de asistencia, como lectores de pantalla, y mejorar la experiencia del usuario para las personas con discapacidades."
         }
+    ];
 
-        if (elements[3] && elements[3].tagName.toLowerCase() === 'footer') {
-            score += 25;
-        } else {
-            alert('Falta la etiqueta semántica "footer" o no está en la posición correcta.');
+    // Generate random index for news articles
+     window.onload = function() {
+    var randomIndex1 = Math.floor(Math.random() * newsArticles1.length);
+    var randomIndex2 = Math.floor(Math.random() * newsArticles2.length);
+    var randomIndex3 = Math.floor(Math.random() * newsArticles3.length);
+    document.getElementById("titulo1").innerHTML = newsArticles1[randomIndex1].title ;
+    document.getElementById("titulo2").innerHTML = newsArticles2[randomIndex2].title;
+    document.getElementById("titulo3").textContent = newsArticles3[randomIndex3].title; 
+
+    // Display news articles
+    document.getElementById("noticia1").textContent = newsArticles1[randomIndex1].content;
+    document.getElementById("noticia2").textContent = newsArticles2[randomIndex2].content;
+    document.getElementById("noticia3").textContent = newsArticles3[randomIndex3].content;
+     }
+    // Verifica si el formulario se ha enviado
+    document.getElementById('structureForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        
+        var structureInput = document.getElementById('structureInput');
+        var tags = structureInput.value.split(/,|\n|\s+/).filter(Boolean); 
+        if  (tags.length !== 4) {
+            document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">Debes ingresar exactamente 4 etiquetas.</div>';
+            return;
         }
-        alert('¡Felicidades! Has completado el desafío');
-        localStorage.setItem('score', score);
-        clearInterval(timerInterval);
-        alert('¡Desafío completado con éxito! Con puntuación de ' + score);
+        tags = tags.map(tag => tag.toLowerCase());
+        var headerIndex = tags.indexOf('header');
+        var navIndex = tags.indexOf('nav');
+        var mainIndex = tags.indexOf('main');
+        var footerIndex = tags.indexOf('footer');
+
+
+        if (headerIndex === -1 || navIndex === -1 || mainIndex === -1 || footerIndex === -1) {
+            document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">Debes incluir las etiquetas "header", "footer, "nav" y "main".</div>';
+            return;
+        }
+        if ("header" !== tags[0] || "nav" !== tags[1] || "main" !== tags[2] || "footer" !== tags[3]) {
+            document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">¡Las etiquetas deben estar en el orden correcto!</div>';
+            return;
+        }
+        else if(headerIndex === 0 && navIndex === 1 && mainIndex === 2 && footerIndex === 3 && tags.length === 4){
+            var newScore = obtenerPuntuación(timerValueWhenConditionMet);
+            var currentScore = parseInt(localStorage.getItem('score'));
+            var totalScore = currentScore + newScore;
+            document.getElementById("score-container").innerText = 'Puntuación: ' + totalScore;
+            document.getElementById("next").style.display = 'block';
+            localStorage.setItem('score', totalScore);
+            clearInterval(checkInterval);
+            clearInterval(timerInterval);
+            document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">¡Desafío completado con éxito!</div>'; 
+        }    
+    });
+
+
+    function nextChallenge() {
+        document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">Avanzando al siguiente desafío</div>';
         if (!playedChallenges.includes(window.location.pathname)) {
             playedChallenges.push(window.location.pathname);
             localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
         }
-        if (playedChallenges.length < 1 && confirm('¿Quieres avanzar al siguiente desafío?')) {
-            alert('Avanzando al siguiente desafío...');
+        if (playedChallenges.length < 4) {
+            //document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">Avanzando al siiguiente desafío</div>';
 
             // Filtra los desafíos para excluir los que el usuario ya ha jugado
-            var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
+            //var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
 
             // Genera un número aleatorio entre 0 y el número de desafíos restantes
-            var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
+            var nextChallengeIndex = Math.floor(Math.random() * comprensibilidad.length);
 
             // Redirige al usuario al desafío seleccionado
-            var nextChallenge = remainingChallenges[nextChallengeIndex];
+            var nextChallenge = comprensibilidad[nextChallengeIndex];
             window.location.href = nextChallenge;
         } else {
-            alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
+            document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">¡Desafío completado con éxito! Con puntuación de ' + totalScore + '</div>';
             // Borra la lista de desafíos jugados
             playedChallenges = [];
             localStorage.removeItem('playedChallenges');
-            if (score > {{ highscore }} ) {
+            if (totalScore > {{ highscore }} ) {
             fetch('/challenges/updateHighscore', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    highscore: score,
+                    highscore: totalScore,
                 }),
             })
                 .then(response => response.json())
@@ -189,31 +275,14 @@
         }
         localStorage.setItem('score', 0);
         window.location.href = "/";
-    }
+    }   
 }
-    document.getElementById('structureForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        var structureInput = document.getElementById('structureInput');
-        var tags = structureInput.value.split(/,|\n|\s+/); // Divide la entrada en etiquetas por comas, retornos de carro o uno o más espacios
-        tags.forEach(function (tag) {
-            tag = tag.toLowerCase();
-            tag = tag.trim();
-            var content = document.getElementById(tag);
-            if (content) {
-                var newElement = document.createElement(tag);
-                newElement.innerHTML = content.innerHTML;
-                var container = document.getElementById('container'); // Asume que tienes un contenedor con el ID 'myContainer'
-                container.appendChild(newElement);
-                container.removeChild(content); // Elimina el elemento original
-            }
-        });
-        verifyStructure();
-    });
-</script>
-<script>
-
+    var checkInterval = setInterval(win, 2000);
     var startTime, timerInterval, timerValueWhenConditionMet;
 
+    function obtenerPuntuación(timerTriggered) {
+        return Math.floor(1000 / timerTriggered);
+    }
 
     function updateTimer() {
 

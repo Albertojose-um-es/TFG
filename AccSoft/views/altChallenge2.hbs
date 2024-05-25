@@ -111,16 +111,25 @@
     var message = false;
     var nombre = false;
     
-    var challenges = [
+    var perceptibilidad = [
         '/challenges/contrastChallenge',
         '/challenges/contrastChallenge2',
         '/challenges/altChallenge',
-        '/challenges/altChallenge2',
+        '/challenges/subtitlesChallenge',
+    ];
+    var operabilidad = [
         '/challenges/structureChallenge',
         '/challenges/structureChallenge2',
+    ];
+    var comprensibilidad = [
         '/challenges/formChallenge',
         '/challenges/formChallenge2',
+    ];
+    var robustez = [
+        '/challenges/altChallenge2',
         '/challenges/keyboardChallenge',
+        //FONTISZE CHALLENGE NO VALID
+        //'/challenges/fontSizeChallenge',
     ];
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
     var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
@@ -179,17 +188,17 @@
                 playedChallenges.push(window.location.pathname);
                 localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
             }
-            if (playedChallenges.length < 3 && confirm('¿Quieres avanzar al siguiente desafío?')) {
+            if (playedChallenges.length < 4 && confirm('¿Quieres avanzar al siguiente desafío?')) {
                 alert('Avanzando al siguiente desafío...');
 
                             // Filtra los desafíos para excluir los que el usuario ya ha jugado
                 var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
 
                             // Genera un número aleatorio entre 0 y el número de desafíos restantes
-                var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
+                var nextChallengeIndex = Math.floor(Math.random() * 4);
 
                             // Redirige al usuario al desafío seleccionado
-                var nextChallenge = remainingChallenges[nextChallengeIndex];
+                var nextChallenge = perceptibilidad[nextChallengeIndex];
                 window.location.href = nextChallenge;
                 } else {
                     alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');

@@ -1,7 +1,7 @@
 <div class="container">
     <div class="py-5 d-flex justify-content-center">
         <div class="col-md-10">
-            <h1>Desafío sobre el contraste de color</h1>
+            <h1>Desafío sobre la Perceptibilidad</h1>
         </div>
         <div class="col-md-2 p-1">
             <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -21,32 +21,34 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-8">
+            <div id="alarm" class="d-flex justify-content-center text-center"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary" id="next"  style="display: none;" onclick="nextChallenge()">Siguiente desafío</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-6">
-            <h5 class="text">En una página de producto, hay un enlace de "Leer más" con texto azul sobre un fondo verde
-                oscuro. El
-                contraste entre el texto y el fondo no cumple con los estándares de accesibilidad. Debes modificar los
-                estilos CSS para mejorar el contraste y hacer que el enlace sea más visible.</h5>
+            <h6 class="text">En una página de noticias, hay un enlace de "Leer más" con texto azul sobre un fondo verde
+                oscuro. El contraste entre el texto y el fondo no cumple con los estándares de accesibilidad. Debes modificar los
+                estilos CSS para mejorar el contraste y hacer que el enlace sea más visible.</h6>
             <textarea id="editor" rows="3" cols="10" class="form-control py-3">
             color: blue;
             background-color: darkgreen;
             </textarea>
-            <button onclick="applyCss()" class="btn btn-primary py-3 m-3" style="width: 500px;">Aplicar CSS</button>
+            <button  id="aplicarCss" onclick="applyCss()" class="btn btn-primary py-3 m-3" style="width: 500px;">Aplicar CSS</button>
         </div>
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center">Título del Artículo</h2>
+                    <h2 class="text-center">Datos sobre Accesibilidad</h2>
                 </div>
                 <div class="card-body">
-                    <p class="text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lorem velit.
-                        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam
-                        in
-                        sollicitudin purus. Suspendisse potenti. Phasellus sit amet odio vitae ex aliquet bibendum.
-                        Quisque
-                        convallis tellus a metus tempor, ut venenatis urna ultrices. Fusce nec sapien lorem. Vestibulum
-                        vitae diam ac risus lacinia aliquet. Integer in turpis eget risus dictum consequat. Integer
-                        consectetur ante et lorem laoreet, eu consequat lorem viverra.
+                    <p class="text" id="textDesafio">
+                       
                     </p>
                     <p class="collapse" id="textoAdicional">
                         Phasellus fringilla sapien nec urna laoreet, vitae ullamcorper libero tempor. In hac habitasse
@@ -102,19 +104,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
 
 
+   
 
 <script>
 
-    var challenges = [
+    var perceptibilidad = [
         '/challenges/contrastChallenge',
         '/challenges/contrastChallenge2',
         '/challenges/altChallenge',
-        '/challenges/altChallenge2',
+        '/challenges/subtitlesChallenge',
+    ];
+    var operabilidad = [
         '/challenges/structureChallenge',
         '/challenges/structureChallenge2',
+    ];
+    var comprensibilidad = [
         '/challenges/formChallenge',
         '/challenges/formChallenge2',
+    ];
+    var robustez = [
+        '/challenges/altChallenge2',
         '/challenges/keyboardChallenge',
+        '/challenges/fontSizeChallenge',
     ];
 
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
@@ -155,6 +166,29 @@
         }
     }
 
+     var textos = [
+    "La accesibilidad del software es fundamental para garantizar que todas las personas, independientemente de sus capacidades, puedan utilizar y disfrutar de una aplicación o sitio web.",
+    "Al diseñar interfaces de usuario accesibles, es importante considerar aspectos como el contraste de color, el tamaño de fuente, la navegación por teclado y el uso de etiquetas adecuadas para los elementos interactivos.",
+    "Las pautas de accesibilidad, como las WCAG, proporcionan recomendaciones y estándares para crear experiencias digitales accesibles. Es importante seguir estas pautas para garantizar la inclusión de todas las personas.",
+    "Además del contraste de color, también es importante considerar el contraste de luminosidad entre los elementos de una interfaz. Esto puede ayudar a mejorar la legibilidad y la comprensión de la información.",
+    "Las tecnologías de asistencia, como los lectores de pantalla y los teclados alternativos, son herramientas clave para que las personas con discapacidades puedan interactuar con aplicaciones y sitios web. Es importante asegurarse de que la interfaz sea compatible con estas tecnologías.",
+    "La accesibilidad no solo se trata de cumplir con las regulaciones y estándares, sino de crear una experiencia inclusiva y amigable para todos los usuarios. Al considerar la accesibilidad desde el inicio del proceso de desarrollo, se pueden evitar problemas y mejorar la experiencia para todos.",
+    "La accesibilidad es un proceso continuo. Es importante realizar pruebas de accesibilidad regularmente y realizar ajustes según sea necesario para garantizar que la aplicación o sitio web siga siendo accesible a medida que se realicen cambios y actualizaciones.",
+    "La educación y la conciencia sobre la accesibilidad son fundamentales para fomentar un enfoque inclusivo en el desarrollo de software. Al aprender sobre las necesidades y experiencias de las personas con discapacidades, se pueden tomar decisiones informadas para mejorar la accesibilidad.",
+    "La accesibilidad no solo beneficia a las personas con discapacidades, sino que también puede mejorar la experiencia de todos los usuarios. Al crear interfaces intuitivas y fáciles de usar, se puede mejorar la usabilidad y la satisfacción del usuario en general.",
+    "¿Sabías que aproximadamente el 15% de la población mundial vive con algún tipo de discapacidad? La accesibilidad del software es crucial para garantizar que todos puedan utilizar la tecnología.",
+    "La accesibilidad del software no solo beneficia a las personas con discapacidades. Las características de accesibilidad también pueden ser útiles para las personas mayores, las personas con lesiones temporales o incluso las personas que están utilizando dispositivos con pantallas pequeñas o en entornos con mucha luz solar.",
+    "El contraste de color adecuado es una parte importante de la accesibilidad del software. Un contraste de color insuficiente puede hacer que el texto sea difícil de leer para las personas con discapacidades visuales, pero también para las personas con visión normal en ciertas condiciones de iluminación.",
+    "¿Sabías que el estándar mínimo de contraste de color para el texto normal es 4.5:1, según las Pautas de Accesibilidad al Contenido en la Web (WCAG)? Para el texto de gran tamaño, el estándar es un poco más bajo, a 3:1.",
+    "Las pruebas de accesibilidad son una parte importante del desarrollo de software. Herramientas como las auditorías de accesibilidad de Lighthouse en Chrome DevTools pueden ayudar a identificar y corregir problemas de accesibilidad en tu sitio web o aplicación.",
+    ];
+
+    window.onload = function() {
+
+    var textoAleatorio = textos[Math.floor(Math.random() * textos.length)];
+    var texto = document.getElementById('textDesafio');
+    texto.innerHTML = textoAleatorio;
+};
 
     function applyCss() {
         var css = document.getElementById('editor').value;
@@ -181,62 +215,69 @@
                         var totalScore = currentScore + newScore;
                         localStorage.setItem('score', totalScore);
                         clearInterval(timerInterval);
-                        alert('¡Desafío completado con éxito! Con puntuación de ' + totalScore);
-                        
+                        document.getElementById("score-container").innerText = 'Puntuación: ' + totalScore;
+                        document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">¡Desafío completado con éxito! Con puntuación de ' + totalScore + '</div>';
+                        document.getElementById("next").style.display = 'block';
 
-                        if (!playedChallenges.includes(window.location.pathname)) {
-                            playedChallenges.push(window.location.pathname);
-                            localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
-                        }
-                        if (playedChallenges.length < 2 && confirm('¿Quieres avanzar al siguiente desafío?')) {
-                            alert('Avanzando al siguiente desafío...');
-
-                            // Filtra los desafíos para excluir los que el usuario ya ha jugado
-                            var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
-
-                            // Genera un número aleatorio entre 0 y el número de desafíos restantes
-                            var nextChallengeIndex = Math.floor(Math.random() * remainingChallenges.length);
-
-                            // Redirige al usuario al desafío seleccionado
-                            var nextChallenge = remainingChallenges[nextChallengeIndex];
-                            window.location.href = nextChallenge;
-                        } else {
-                            alert('Has jugado tres desafíos en esta partida. ¡Felicidades!');
-                            // Borra la lista de desafíos jugados
-                            playedChallenges = [];
-                            localStorage.removeItem('playedChallenges');
-                            if (totalScore > {{highscore}}) {
-                                fetch('/challenges/updateHighscore', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({
-                                        highscore: totalScore,
-                                    }),
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    console.log('Highscore updated:', data);
-                                })
-                                .catch((error) => {
-                                    console.error('Error:', error);
-                                });
-                            }
-                            localStorage.setItem('score', 0);
-                            window.location.href = "/";
+                    }, 1000); // Retrasa la alerta para que el usuario pueda ver la solución
+                } else {
+                    document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">El contraste entre el color del texto y el color de fondo no es suficiente. Por favor, ajusta los estilos CSS para mejorar el contraste.</div>';
                 }
-            }, 1000); // Retrasa la alerta para que el usuario pueda ver la solución
+            } else {
+                document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">No se pudo encontrar el color o el color de fondo en el CSS</div>';
+            }
         } else {
-            alert('El contraste no es suficiente');
+            document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">No se pudo encontrar el color o el color de fondo en el CSS</div>';
         }
-    } else {
-        alert('Uno de los colores no se reconoce');
     }
+
+    function nextChallenge() {
+        if (!playedChallenges.includes(window.location.pathname)) {
+            playedChallenges.push(window.location.pathname);
+            localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+        }
+        if (playedChallenges.length < 4) {
+            //document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">Avanzando al siiguiente desafío</div>';
+
+            // Filtra los desafíos para excluir los que el usuario ya ha jugado
+            //var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
+
+            // Genera un número aleatorio entre 0 y el número de desafíos restantes
+            var nextChallengeIndex = Math.floor(Math.random() * operabilidad.length);
+
+            // Redirige al usuario al desafío seleccionado
+            var nextChallenge = operabilidad[nextChallengeIndex];
+            window.location.href = nextChallenge;
         } else {
-        alert('No se pudo encontrar el color o el color de fondo en el CSS');
+            document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">¡Desafío completado con éxito! Con puntuación de ' + totalScore + '</div>';
+            // Borra la lista de desafíos jugados
+            playedChallenges = [];
+            localStorage.removeItem('playedChallenges');
+            if (totalScore > {{ highscore }} ) {
+            fetch('/challenges/updateHighscore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    highscore: totalScore,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Highscore updated:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+        localStorage.setItem('score', 0);
+        window.location.href = "/";
     }
+        
     }
+
+
 
     function getLuminance(r, g, b) {
         var a = [r, g, b].map(function (v) {

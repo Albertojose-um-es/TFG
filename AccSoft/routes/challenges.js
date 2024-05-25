@@ -54,16 +54,20 @@ router.get("/formChallenge2", async function (req, res, next) {
     tittle: "Desafío de formulario", highscore: req.session.highscore});
 });
 
-router.get("/keyboardChallenge2", async function (req, res, next) {
-  res.render("keyboardChallenge2", {
-    tittle: "Desafío de teclado", highscore: req.session.highscore});
-});
-
 router.get("/keyboardChallenge", async function (req, res, next) {
   res.render("keyboardChallenge", {
     tittle: "Desafío de teclado", highscore: req.session.highscore});
 });
     
+router.get("/fontSizeChallenge", async function (req, res, next) {
+  res.render("fontSizeChallenge", {
+    tittle: "Desafío de tamaño de fuente", highscore: req.session.highscore});
+});
+
+router.get("/subtitlesChallenge", async function (req, res, next) { 
+  res.render("subtitlesChallenge", {
+    tittle: "Desafío de subtítulos", highscore: req.session.highscore});
+});
 
 router.get("/highscore", function (req, res, next) {
 
@@ -72,7 +76,7 @@ router.get("/highscore", function (req, res, next) {
                 return ayudante.getAllContact(con)
             })
             .then( data =>  {
-                res.render('highscore', { 'tittle' : 'Highscore', 'contactos' : data})
+                res.render('highscore', { 'tittle' : 'Highscore', 'contactos' : data.sort((a, b) => b.highscore - a.highscore)})
                   }
             )
             .catch(error => {console.log(error)})

@@ -49,8 +49,6 @@
                         <h5>Reglas del desafío</h5>
                     </li>
                     <li>Debes cambiar el tamaño de la fuente del texto para que sea legible.</li>
-                    <li>El tamaño de la fuente debe ser mayor a 12px.</li>
-                    <li>El tamaño de la fuente debe ser menor a 24px.</li>
                     <li>El tamaño de la fuente debe ser un número entero.</li>
                 </ul>
             </div>
@@ -94,6 +92,8 @@
                     <li><strong>Evitar el desbordamiento:</strong> Al aumentar el tamaño del texto, es importante
                         asegurarse de que no provoque un desbordamiento que oculte el contenido o interfiera con la
                         funcionalidad.</li>
+                    <li><strong>Cambiar atributos en CSS:</strong> Recuerda que para cambiar el tamaño de la fuente usando CSS; debes cambiar
+                    el atributo font-size &lt;p style="font-size: Xpx;"&gt;&lt;/p&gt; </li>
                 </ul>
                 <p>En este desafío, debes asegurarte de que el tamaño del texto en tu página web cumple con estas pautas
                     de accesibilidad.</p>
@@ -128,6 +128,7 @@
         '/challenges/formChallenge',
         '/challenges/formChallenge2',
         '/challenges/keyboardChallenge',
+        '/challenges/fontSizeChallenge',
     ];
 
     var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
@@ -135,12 +136,18 @@
     document.getElementById('formSize').addEventListener('submit', function (event) {
         // Prevenir el comportamiento predeterminado del formulario
         event.preventDefault();
-        const newSize = document.getElementById('ogInput').value.trim();
+        alert('¡Desafío completado con éxito!');
+        const input = document.getElementById('ogInput').value.trim();
+        const newFontSize = parseInt(input);
+        const regex = /<p style="font-size:\s*(\d+)px;">/;
+        //const regex = /\d+/g;
+        const match = input.match(regex);
         const originalText = document.getElementById('original-text');
-
+        const newSize = match[1];
+        alert(newSize);
         if (!isNaN(newSize)) {
             if (newSize < 12 || newSize > 24) {
-                document.getElementById('resultado').textContent = "Por favor, introduce un número entre 12 y 24.";
+                document.getElementById('resultado').innerHTML = "Por favor, introduce un número entre 12 y 24.";
                 return;
             }
             originalText.style.fontSize = newSize + 'px';

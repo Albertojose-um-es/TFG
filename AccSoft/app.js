@@ -32,7 +32,8 @@ app.use('/users', usersRouter);
 app.use('/challenges', challengesRouter);
 app.get('/checkLoginStatus', (req, res) => {
   const loggedIn = req.session.contact_id>=0; // Verifica si existe la propiedad userId en la sesión
-  console.log("highscore:"+req.session.highscore);
+  console.log("contact_id:"+req.session.contact_id);
+  console.log("email:"+req.session.email);
   res.json({ loggedIn }); // Envia la respuesta al cliente como objeto JSON
 });
 app.use(express.static(path.join(__dirname, 'public')));

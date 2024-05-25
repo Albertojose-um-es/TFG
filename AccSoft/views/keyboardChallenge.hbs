@@ -34,47 +34,46 @@
             <div class="card text-start">
                 <h5 class="m-3">Incluye los datos de tu pedido.</h5>
                 <div class="card-body">
-                        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                            <a class="navbar-brand" href="#">Menú</a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarNav">
-                                <ul class="navbar-nav">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1"
-                                            role="button" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Menú 1
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                                            <a class="dropdown-item" href="#">Opción 1</a>
-                                            <a class="dropdown-item" href="#">Opción 2</a>
-                                            <a class="dropdown-item" href="#">Opción 3</a>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2"
-                                            role="button" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Menú 2
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                                            <a class="dropdown-item" href="#">Opción 1</a>
-                                            <a class="dropdown-item" href="#">Opción 2</a>
-                                            <a class="dropdown-item" href="#">Opción 3</a>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="btn btn-primary">Botón 1</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="btn btn-secondary">Botón 2</button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </nav>
+                    <nav id="nav" class="navbar navbar-expand-lg navbar-light bg-light">
+                        <a  id="brand" class="navbar-brand" href="#" tabindex="-1">Menú</a>
+                        <button id="boton1" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li id="item1" class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="link1"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="-1">
+                                        Menú 1
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                                        <a class="dropdown-item" href="#">Opción 1</a>
+                                        <a class="dropdown-item" href="#">Opción 2</a>
+                                        <a class="dropdown-item" href="#">Opción 3</a>
+                                    </div>
+                                </li>
+                                <li id="item2" class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="link2"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="-1">
+                                        Menú 2
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                                        <a class="dropdown-item" href="#">Opción 1</a>
+                                        <a class="dropdown-item" href="#">Opción 2</a>
+                                        <a class="dropdown-item" href="#">Opción 3</a>
+                                    </div>
+                                </li>
+                                <li id="item3" class="nav-item">
+                                    <button id="btn1" class="btn btn-primary" tabindex="-1">Botón 1</button>
+                                </li>
+                                <li id="item4" class="nav-item">
+                                    <button id="btn2" class="btn btn-secondary" tabindex="-1">Botón 2</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
                 </div>
             </div>
         </div>
@@ -94,11 +93,11 @@
             </div>
             <div class="row">
                 <div class="mb-3">
-                    <form id="formInfo">
-                        <label for="newLabel" class="form-label">Cambiar etiqueta:</label>
-                        <textarea class="form-control" id="newInfo" rows="3"
+                    <form id="formKeyboard">
+                        <label for="newLabel" class="form-label">Añadir accesibilidad por teclado:</label>
+                        <textarea class="form-control" id="getId" rows="3"
                             placeholder="Escriba el nuevo nombre de la etiqueta"></textarea>
-                        <button type="submit" class="btn btn-primary mt-2">Cambiar etiqueta</button>
+                        <button type="submit" class="btn btn-primary mt-2">Ejecutar</button>
                     </form>
                 </div>
             </div>
@@ -157,103 +156,51 @@
     integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
     crossorigin="anonymous"></script>
 <script>
-    var challenges = [
+   var perceptibilidad = [
         '/challenges/contrastChallenge',
         '/challenges/contrastChallenge2',
         '/challenges/altChallenge',
-        '/challenges/altChallenge2',
+        '/challenges/subtitlesChallenge',
+    ];
+    var operabilidad = [
         '/challenges/structureChallenge',
         '/challenges/structureChallenge2',
+    ];
+    var comprensibilidad = [
         '/challenges/formChallenge',
         '/challenges/formChallenge2',
-        '/challenges/keyboardChallenge',
     ];
-    $(document).ready(function () {
-        // Desactivar temporalmente la accesibilidad
-        function desactivarAccesibilidad() {
-            // Eliminar atributos href de los enlaces
-            $('.navbar-nav a.nav-link').removeAttr('href');
-            // Deshabilitar eventos de teclado en elementos desplegables
-            $('.dropdown-toggle').off('keydown');
-            // Otras acciones para desactivar la accesibilidad...
-        }
-
-        // Restaurar la accesibilidad
-        function restaurarAccesibilidad() {
-            // Restaurar atributos href de los enlaces
-            $('.navbar-nav a.nav-link').attr('href', '#');
-            // Restaurar eventos de teclado en elementos desplegables
-            $('.dropdown-toggle').on('keydown', function (event) {
-                // Manejar eventos de teclado nuevamente...
-            });
-            // Otras acciones para restaurar la accesibilidad...
-        }
-
-        // Ejemplo de desafío: Desactivar y restaurar la accesibilidad al hacer clic en un botón
-        $('#desactivarAccesibilidadBtn').click(function () {
-            desactivarAccesibilidad();
-            alert('La accesibilidad ha sido desactivada temporalmente. Completa el desafío y luego restaura la accesibilidad.');
-        });
-
-        $('#restaurarAccesibilidadBtn').click(function () {
-            restaurarAccesibilidad();
-            alert('La accesibilidad ha sido restaurada.');
-        });
-    });
+    var robustez = [
+        '/challenges/altChallenge2',
+        '/challenges/keyboardChallenge',
+        //FONTISZE CHALLENGE NO VALID
+        //'/challenges/fontSizeChallenge',
+    ];
 
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
     var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
-
+    var elementosChanged = 0;
     // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })();
-
-    document.getElementById('formInfo').addEventListener('submit', function (event) {
-        // Prevenir el comportamiento predeterminado del formulario
+    
+    document.getElementById('formKeyboard').addEventListener('submit', function (event) {
         event.preventDefault();
-
-        // Obtener el texto introducido en el textarea
-        var inputText = document.getElementById('newInfo').value.trim();
-
-        // Utilizar una expresión regular para extraer el número de la etiqueta y el nuevo nombre de la etiqueta
-        var match = inputText.match(/<div class="invalid-feedback" id="campo(\d+)">(.*?)<\/div>/);
-        if (match) {
-            // Obtener el número de la etiqueta y el nuevo nombre de la etiqueta
-            var infoNumber = match[1];
-            var newInfo = match[2];
-
-            // Construir el ID de la etiqueta
-            var infoId = 'campo' + infoNumber;
-
-            // Obtener la etiqueta con el ID construido
-            var inf = document.getElementById(infoId);
-
-            // Actualizar el texto de la etiqueta con el nuevo nombre de la etiqueta
-            inf.textContent = newInfo;
-        } else {
-            // Mostrar un mensaje de error si el texto introducido en el textarea no sigue el formato esperado
-            alert('Por favor, introduce el nuevo nombre de la etiqueta en el formato correcto.');
+        alert('¡Formulario enviado con éxito!');
+        var regex = /id="([^"]*)"/;
+        var element = document.getElementById('getId').value;
+        alert('El elemento que has introducido es: ' + element);
+        var match = element.match(regex);
+        alert('El id del elemento es: ' + match[1]);
+        var id = match[1];
+        var elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.removeAttribute('tabindex');
+            elementosChanged++;
+            alert('Elemento cambiado con éxito');
         }
-
+        else {
+            alert('No se ha encontrado ningún elemento con el id ' + id);
+        }
     });
-
 
     function checkChallengeCompletion() {
         if (verificarMensajesError()) {
@@ -313,37 +260,12 @@
 
     function verificarMensajesError() {
         // Obtener los mensajes de error
-        var mensajeErrorCampo1 = document.getElementById('campo1').innerText;
-        var mensajeErrorCampo2 = document.getElementById('campo2').innerText;
-
-        // Definir los criterios
-        var longitudMinima = 10;
-        var palabrasClave = ['obligatorio', 'inválido', 'requerido', 'incorrecto'];
-        var mensajeErrorPredeterminado = 'Error';
-
-        // Verificar la longitud
-        if (mensajeErrorCampo1.length < longitudMinima || mensajeErrorCampo2.length < longitudMinima) {
-            console.log('Los mensajes de error deben tener al menos ' + longitudMinima + ' caracteres.');
+        if (elementosChanged < 5) {
             return false;
         }
-
-        // Verificar las palabras clave
-        var contienePalabraClave = palabrasClave.some(function (palabraClave) {
-            return mensajeErrorCampo1.includes(palabraClave) || mensajeErrorCampo2.includes(palabraClave);
-        });
-        if (!contienePalabraClave) {
-            console.log('Los mensajes de error deben contener al menos una de las siguientes palabras clave: ' + palabrasClave.join(', '));
-            return false;
+        else {
+            return true;
         }
-
-        // Verificar si los mensajes de error son diferentes del predeterminado
-        if (mensajeErrorCampo1 === mensajeErrorPredeterminado || mensajeErrorCampo2 === mensajeErrorPredeterminado) {
-            console.log('Los mensajes de error deben ser diferentes del mensaje de error predeterminado.');
-            return false;
-        }
-
-        // Si se cumplen todos los criterios, devolver true
-        return true;
     }
     // Comprobar la finalización del desafío cada segundo
     var checkInterval = setInterval(checkChallengeCompletion, 2000);
@@ -354,7 +276,9 @@
         return Math.floor(1000 / timerTriggered);
     }
 
-
+    $('.navbar-nav a.nav-link').on('keydown', function(e) {
+    e.preventDefault();
+});
 
     function updateTimer() {
 

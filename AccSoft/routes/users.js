@@ -135,6 +135,7 @@ router.get('/logout', (req, res) => {
             .then( con => {
                 req.session.contact_id = -1;
                 req.session.email = "";
+                req.session.highscore = 0;
                 console.log(req.session.contact_id);
                 res.redirect('/');
             })

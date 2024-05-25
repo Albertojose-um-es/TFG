@@ -1,0 +1,259 @@
+<div class="container">
+    <div class="py-5 d-flex justify-content-center">
+        <div class="col-md-10">
+            <h1>Desafío sobre la Perceptibilidad</h1>
+        </div>
+        <div class="col-md-2 p-1">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                ¿Necesitas ayuda?
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="div" id="timer-container"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="div" id="score-container"></div>
+        </div>
+        <div class="col-md-4">
+            <p id="highscore">Máxima puntuación: {{highscore}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div id="alarm" class="d-flex justify-content-center text-center"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary" id="next"  style="display: none;" onclick="nextChallenge()">Siguiente desafío</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h5>Este video no tiene subtítulos. Añade subtítulos para hacerlo accesible.</h5>
+    </div>
+    <div class="row">
+        <hr class="my-4">
+    </div>
+    <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <p>Escucha el extracto del video y escribe una transcripción del mismo que dure 10 segundos:</p>
+                    <!-- Video con extracto de 10 segundos -->
+                    <video controls>
+                        <source src="/videos/prueba.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento video.
+                    </video>
+                    
+                </div>
+                <div class="row">
+                    <div id="subtitulos-pro"></div>
+                </div>  
+            </div>
+            <div class="col-md-6">
+                <div class="row" id="rules-container">
+                    <h5>Reglas para añadir los subtitulos:</h5>
+                    <ul>
+                        <li> Debes escribir la trasncripción completa del video. </li>
+                        <li> Debes escribir los subtítulos en el formato correcto. </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                       <form id="formSubtitles">
+                            <label for="subtitles" class="form-label">Escribe los subtítulos:</label>
+                            <textarea class="form-control" id="subtitles" rows="3"
+                                placeholder="Escriba aquí"></textarea>
+                            <button type="submit" class="btn btn-primary mt-2">Enviar subtítulos</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>   
+    <div class="row">
+        <hr class="my-4">
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Información útil</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2>Accesibilidad de formularios según las pautas de la WCAG</h2>
+                <p>Las Pautas de Accesibilidad para el Contenido Web (WCAG) proporcionan varias recomendaciones para
+                    hacer que los formularios sean más accesibles. Algunas de estas recomendaciones incluyen:</p>
+                <ul>
+                    <li><strong>Etiquetas descriptivas:</strong> Cada campo de entrada debe tener una etiqueta que
+                        describa claramente su propósito. Esto ayuda a las personas que utilizan lectores de pantalla y
+                        a las personas con dificultades cognitivas a entender qué se espera que ingresen en cada campo.
+                    </li>
+                    <li><strong>Indicación de campos obligatorios:</strong> Si un campo es obligatorio, esto debe
+                        indicarse claramente. Esto puede hacerse mediante el uso de la palabra "obligatorio" en la
+                        etiqueta del campo, o mediante el uso de un asterisco y una nota que explique que los campos
+                        marcados con un asterisco son obligatorios.</li>
+                    <li><strong>Mensajes de error claros:</strong> Si el usuario comete un error al rellenar el
+                        formulario, debe recibir un mensaje de error claro que le indique qué ha hecho mal y cómo puede
+                        corregirlo.</li>
+                    <li><strong>Orden lógico:</strong> Los campos de entrada deben estar ordenados de manera lógica.
+                        Esto puede ser de arriba a abajo y de izquierda a derecha para las personas que leen en idiomas
+                        que se escriben de esta manera.</li>
+                </ul>
+                <p>En este desafío, debes mejorar las etiquetas de los campos de entrada para hacerlas más descriptivas
+                    y comprensibles, y asegurarte de que el formulario cumple con estas pautas de accesibilidad.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script>
+    // Lista de desafíos disponibles
+     var perceptibilidad = [
+        '/challenges/contrastChallenge',
+        '/challenges/contrastChallenge2',
+        '/challenges/altChallenge',
+        '/challenges/subtitlesChallenge',
+    ];
+    var operabilidad = [
+        '/challenges/structureChallenge',
+        '/challenges/structureChallenge2',
+    ];
+    var comprensibilidad = [
+        '/challenges/formChallenge',
+        '/challenges/formChallenge2',
+    ];
+    var robustez = [
+        '/challenges/altChallenge2',
+        '/challenges/keyboardChallenge',
+        '/challenges/fontSizeChallenge',
+    ];
+
+    // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
+    var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
+
+document.getElementById('formSubtitles').addEventListener('submit', function(event) {
+    // Prevenir el comportamiento predeterminado del formulario
+    event.preventDefault();
+
+    // Obtener el texto del campo de entrada
+    var text = document.getElementById('subtitles').value;
+
+     if (subtitulos(text)) {
+        clearInterval(timerInterval);
+        document.getElementById("subtitulos-pro").innerHTML = '<div class="alert alert-primary" role="alert">Transcripción: '+text +'</div>';
+        document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">¡Desafío completado con éxito!</div>';
+        var newScore = obtenerPuntuación(timerValueWhenConditionMet);
+        var currentScore = parseInt(localStorage.getItem('score'));
+        var totalScore = currentScore + newScore;
+        localStorage.setItem('score', totalScore);
+        document.getElementById("score-container").innerText = 'Puntuación: ' + totalScore;
+        document.getElementById("next").style.display = 'block';
+    }
+    else {
+        document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">¡La transcripción no coincide con el video!</div>';  
+    }
+});
+    
+// Comprueba si el texto coincide con la transcripción del video
+function subtitulos(text) {
+    var transcripcion =
+            "En un lugar de la Mancha en un lugar de la mancha de cuyo nombre no quiero acordarme";
+    var texto = text.toLowerCase().replace(/[^a-zA-Z ]/g, '');
+    var trans = transcripcion.toLowerCase().replace(/[^a-zA-Z ]/g, '');
+    return texto === trans;
+}
+
+function nextChallenge() {
+        if (!playedChallenges.includes(window.location.pathname)) {
+            playedChallenges.push(window.location.pathname);
+            localStorage.setItem('playedChallenges', JSON.stringify(playedChallenges));
+        }
+        if (playedChallenges.length < 4) {
+            //document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">Avanzando al siiguiente desafío</div>';
+
+            // Filtra los desafíos para excluir los que el usuario ya ha jugado
+            //var remainingChallenges = challenges.filter(challenge => !playedChallenges.includes(challenge));
+
+            // Genera un número aleatorio entre 0 y el número de desafíos restantes
+            var nextChallengeIndex = Math.floor(Math.random() * operabilidad.length);
+
+            // Redirige al usuario al desafío seleccionado
+            var nextChallenge = operabilidad[nextChallengeIndex];
+            window.location.href = nextChallenge;
+        } else {
+            document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">¡Desafío completado con éxito! Con puntuación de ' + totalScore + '</div>';
+            // Borra la lista de desafíos jugados
+            playedChallenges = [];
+            localStorage.removeItem('playedChallenges');
+            if (totalScore > {{ highscore }} ) {
+            fetch('/challenges/updateHighscore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    highscore: totalScore,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Highscore updated:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+        localStorage.setItem('score', 0);
+        window.location.href = "/";
+    }   
+}
+</script>
+<script>
+var startTime, timerInterval, timerValueWhenConditionMet;
+
+function obtenerPuntuación(timerTriggered) {
+    var maxScore = 200;
+    var timeThreshold = 10; // Time threshold in seconds
+    var timePenalty = 10; // Penalty per second
+
+    var elapsedTime = Math.min(timerTriggered, timeThreshold);
+    var score = maxScore - (elapsedTime * timePenalty);
+
+    return Math.max(score, 0);
+}
+
+    function updateTimer() {
+
+        var currentTime = Date.now();
+        var elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        timerValueWhenConditionMet = elapsedTime;
+
+
+        document.getElementById("timer-container").innerText = 'Tiempo de partida: ' + elapsedTime + ' segundos';
+    }
+    document.getElementById("score-container").innerText = 'Puntuación: ' + localStorage.getItem('score');
+
+    function startTimer() {
+        // Guarda el tiempo de inicio
+        startTime = Date.now();
+
+        // Inicia el temporizador para que llame a updateTimer cada 1000 milisegundos (1 segundo)
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // Inicia el temporizador cuando se carga la página
+    startTimer();
+</script>
