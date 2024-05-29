@@ -38,15 +38,13 @@
     </div>
     <div class="row">
             <div class="col-md-6">
-                <p>En este desafío se presenta una barra de navegación de una página donde debes reorganizar los enlaces de navegación. Para ello,
+                <p>Esta barra de navegación carece de los atributos ARIA correspondientes, lo cual dificulta su navegación para diferentes usuarios. Para solucionarlo,
                 sigue los siguientes pasos:</p>
                 <ol>
-                    <li>Etiqueta cada enlace con el id coincidente al texto que aparece en minúscula.</li>
-                    <li>Asegurate de usar las etiquetas HTML correctas.</li>
-                    <li>Usa el atributo tabindex para reorganizarlo.</li>
-                    <li>Separa cada elemento con un salto de línea </li>
+                    <li>Añade un rol adecuado para este elemento.</li>
+                    <li>Así como también proporciona una etiqueta descriptiva para el menú de navegación.</li>
                     <li>
-                       Ejemplo: &lt;nav id=&quot;nombre&quot; tabindex=&quot;X&quot;&gt;Nombre&lt;/nav&gt;
+                       Ejemplo: &lt;nav id=&quot;nav&quot; role=&quot;X&quot; aria-label=&quot;X&quot;&gt;&lt;/nav&gt;
                     </li>
                 </ol>
             </div>
@@ -90,13 +88,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-               <h2>Estructura de contenido según las pautas de la WCAG</h2>
-                <p>Las Pautas de Accesibilidad para el Contenido Web (WCAG) recomiendan estructurar el contenido de manera lógica y coherente. Esto ayuda a las personas que utilizan lectores de pantalla y a las personas con dificultades cognitivas a entender y navegar por el contenido.</p>
-                <p>Algunas recomendaciones para la estructura del contenido incluyen:</p>
+               <h2>Etiquetas ARIA según las pautas de la WCAG</h2>
+                <p>Las Pautas de Accesibilidad para el Contenido Web (WCAG) recomiendan el uso de ARIA (Accessible Rich Internet Applications) para mejorar la accesibilidad de las aplicaciones web. ARIA proporciona una forma de agregar la información necesaria para que las tecnologías de asistencia puedan interactuar completamente con el contenido. Aquí hay algunas recomendaciones:</p>
                 <ul>
-                    <li>Proporcionar un orden de tabulación lógico que coincida con el flujo visual del contenido.</li>
+                    <li><strong>Roles ARIA:</strong> Los roles ARIA describen el tipo de widget que se está utilizando (como 'button', 'menu' o 'dialog') o la estructura de la página (como 'main', 'navigation' o 'footer'). En tu modal, ya estás utilizando el role 'dialog'.</li>
+                    <li><strong>Propiedades y estados ARIA:</strong> Las propiedades y estados ARIA proporcionan información adicional que no puede ser obtenida del DOM, como si un menú está expandido o colapsado, o el valor actual de una barra de progreso.</li>
+                    <li><strong>Etiquetas ARIA:</strong> Las etiquetas ARIA se utilizan para proporcionar una etiqueta accesible cuando la etiqueta visible no es suficiente. En tu modal, estás utilizando 'aria-labelledby' para asociar el título del modal con el modal mismo, y 'aria-hidden' para indicar que el modal está oculto cuando no está activo.</li>
                 </ul>
-                <p>En este desafío, debes reorganizar y etiquetar la estructura del menú de navegación para que cumpla con estas pautas.</p>
+                <p>En este desafío, debes asegurarte de que estás utilizando correctamente las etiquetas ARIA para hacer tu modal accesible.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -132,17 +131,6 @@
 
     // Almacena los desafíos que el usuario ya ha jugado en el almacenamiento local
     var playedChallenges = JSON.parse(localStorage.getItem('playedChallenges')) || [];
-
-    var elements = [1, 2, 3, 4];
-    var shuffledElements = elements.sort(() => Math.random() - 0.5);
-    if( shuffledElements[0] == 1 && shuffledElements[1] == 2 && shuffledElements[2] == 3 && shuffledElements[3] == 4){
-        shuffledElements = [3, 2, 1, 4];
-    }
-    document.getElementById("viaje").tabIndex = shuffledElements[0];
-    document.getElementById("restaurantes").tabIndex = shuffledElements[1];
-    document.getElementById("comida").tabIndex = shuffledElements[2];
-    document.getElementById("explorar").tabIndex = shuffledElements[3];
-
 
        function nextChallenge() {
         document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">Avanzando al siguiente desafío</div>';
@@ -188,20 +176,19 @@
 
     document.getElementById('navigationForm').addEventListener('submit', function (event) {
         event.preventDefault();
-        var navigationInput = document.getElementById('navigationInput').value;
-        if(navigationInput == ""){
-            document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">¡Por favor, ingrese una respuesta!</div>';
+        alert("hola");
+        var Input = document.getElementById('navigationInput').value;
+        var role = Input.match(/role="([^"]+)"/)[1];
+        alert(role);
+        var aria = Input.match(/aria-label="([^"]+)"/)[1];
+        if(role != 'navigation'){
+            document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">El rol de la barra de navegación no coincide con el que has incluido.</div>'; 
+            return;
+        }  
+        if (aria != 'Menú de navegación' && aria != 'Menú de navegación principal' && aria != 'Menú de navegación principal de la página' && aria != 'Navigation menu' && aria != 'Menu de navegacion' && aria != 'Menu principal'){
+            document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">El aria-label de la barra de navegación que ser lo suficientemente descriptiva.</div>'; 
+            return;
         }
-        // Split the navigation input by new lines
-        var navigationLines = navigationInput.split('\n');
-        // Iterate over each line
-        for (var i = 0; i < navigationLines.length; i++) {
-            // Extract the id and tabindex from the line
-            var id = navigationLines[i].match(/id="([^"]+)"/)[1];
-            var tabindex = navigationLines[i].match(/tabindex="([^"]+)"/)[1];
-            document.getElementById(id).setAttribute('tabindex', tabindex);
-        }
-        if (document.getElementById("viaje").tabIndex == 1 && document.getElementById("restaurantes").tabIndex == 2 && document.getElementById("comida").tabIndex == 3 && document.getElementById("explorar").tabIndex == 4){
             document.getElementById("next").style.display = "block";
             var newScore = obtenerPuntuación(timerValueWhenConditionMet);
             var score = parseInt(localStorage.getItem('score')) + newScore;
@@ -209,9 +196,6 @@
             clearInterval(timerInterval);
             document.getElementById("alarm").innerHTML = '<div class="alert alert-success" role="alert">¡Estructura de menú de navegación correcta!</div>';
             document.getElementById("score-container").innerText = 'Puntuación: ' + score;
-        } else {
-            document.getElementById("alarm").innerHTML = '<div class="alert alert-danger" role="alert">¡Estructura de menú de navegación incorrecta!</div>';
-        }
     });
 
     

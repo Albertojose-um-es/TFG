@@ -69,6 +69,11 @@ router.get("/subtitlesChallenge", async function (req, res, next) {
     tittle: "Desafío de subtítulos", highscore: req.session.highscore});
 });
 
+router.get("/navChallenge", async function (req, res, next) {
+  res.render("navChallenge", {
+    tittle: "Desafío de navegación", highscore: req.session.highscore});
+});
+
 router.get("/highscore", function (req, res, next) {
 
     ayudante.getConnection()
